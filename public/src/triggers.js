@@ -86,8 +86,8 @@ function setup() {
 }
 
 function draw() {
-  // if (mouseIsPressed && mouseButton == LEFT) {
-  if (altarOn && movedX) {
+  if (altarOn && mouseIsPressed && mouseButton == LEFT) {
+  // if (altarOn && movedX) {
     console.log("drawing");
     var d = dist(x, y, mouseX, mouseY);
     textSize(fontSizeMin + d / 2);

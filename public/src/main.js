@@ -49,7 +49,7 @@ function handleResize() {
    console.log(response);
    // response = { element, direction, index }
 
-   if (response.index > 0 && !coreoOn) {
+   if (response.index >0 && !coreoOn) {
     coreoOn = true;
     partsOn = true;
    } else if (response.index > 3 && coreoOn) {

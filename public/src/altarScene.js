@@ -1,3 +1,4 @@
+import * as THREE from 'https://unpkg.com/three@0.121.1/build/three.module.js'; 
 
 function initScene() {  
   // colors array
@@ -46,15 +47,15 @@ function initScene() {
 
   let poseNet;
 
-  let jamPlane;
-  let planeGeom = new THREE.PlaneBufferGeometry( 1920, 1080, 2 );
-  let planeMaterial = new THREE.MeshBasicMaterial( {
+  // let jamPlane;
+  // let planeGeom = new THREE.PlaneBufferGeometry( 720, 480, 2 );
+  // let planeMaterial = new THREE.MeshBasicMaterial( {
     // color: 0xffffff, 
-    transparent: true,
-    blending: THREE.AdditiveBlending
+    // transparent: true,
+    // blending: THREE.AdditiveBlending
 
     // side: THREE.DoubleSide
-  });
+  // });
 
   // get video element (mp4) & disable display
   let vidCor = document.getElementById("vidCor");
@@ -98,6 +99,8 @@ function initScene() {
   }).catch(function (err) {
     console.log("An error occurred! " + err);
   });
+
+  // videoPos.srcObject = vidCor.srcObject;
   
   // stream webcam for display
   navigator.mediaDevices.getUserMedia({
@@ -116,10 +119,10 @@ function initScene() {
 
   // initialise mouse attractors
   let mouse = new THREE.Vector2();
-  let mouseMover = new Mover(Math.random()*boundary, boundary, 1000, 50, 15);
-  let mouseMoverOp = new Mover(Math.random()*boundary, boundary, 1000, 50, 15);
+  let mouseMover = new Mover(Math.random()*boundary, boundary, boundary/2, 50, 5);
+  // let mouseMoverOp = new Mover(Math.random()*boundary, boundary, 1000, 50, 15);
   mouseMover.initialise();
-  mouseMoverOp.initialise();
+  // mouseMoverOp.initialise();
   function onDocumentMouseMove( event ) {
     mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
     mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
@@ -128,23 +131,23 @@ function initScene() {
     mouseMover.position.x = THREE.Math.mapLinear( mouse.x, -1, 1, -boundary, boundary );
     mouseMover.position.y = THREE.Math.mapLinear( mouse.y, -1, 1, -boundary, boundary );
 
-    mouseMoverOp.position.x = THREE.Math.mapLinear( mouse.x, -1, 1, boundary, -boundary );
-    mouseMoverOp.position.y = THREE.Math.mapLinear( mouse.y, -1, 1, boundary, -boundary );
+    // mouseMoverOp.position.x = THREE.Math.mapLinear( mouse.x, -1, 1, boundary, -boundary );
+    // mouseMoverOp.position.y = THREE.Math.mapLinear( mouse.y, -1, 1, boundary, -boundary );
     // console.log(mouse.x,mouse.y)
     mouseMover.update();
     mouseMover.display();
 
-    mouseMoverOp.update();
-    mouseMoverOp.display();
+    // mouseMoverOp.update();
+    // mouseMoverOp.display();
   }
   document.addEventListener( 'mousemove', onDocumentMouseMove );
 
-  // loadPosenet();
+  loadPosenet();
 
 
   // create particle sprites (geometry + texture + pMaterial + vectors)
   let cloud;
-  let mouseCloud;
+  // let mouseCloud;
   let mouseGeom = new THREE.Geometry();
   let geom = new THREE.Geometry();
   let texture = new THREE.TextureLoader().load( "img/texture_particle_05.png" );
@@ -157,30 +160,33 @@ function initScene() {
       sizeAttenuation: true,
       color: "#F9DF88"
   });
-  for (let i = 0; i < 10000; i++) {
-      let particle = new THREE.Vector3(THREE.Math.randInt(-boundary, boundary),THREE.Math.randInt(-boundary, boundary),THREE.Math.randInt(-boundary, boundary));
+  for (let i = 0; i < 1; i++) {
+      let particle = new THREE.Vector3(THREE.Math.randInt(-boundary, boundary),THREE.Math.randInt(-boundary, boundary),THREE.Math.randInt(0, boundary));
       // let particle = new THREE.Vector3(Math.random()*boundary, boundary/2, Math.random()*boundary+boundary/2);
       // let particle = new THREE.Vector3(Math.random()*boundary, boundary/2, Math.random()*boundary);
       mouseGeom.vertices.push(particle);
   }  
-  for (let i = 0; i < 10000; i++) {
+  for (let i = 0; i < 20000; i++) {
       // let particle = new THREE.Vector3(Math.random()*boundary, Math.random()*boundary, Math.random()*boundary+boundary/2);
       // let particle = new THREE.Vector3(Math.random()*boundary, Math.random()*boundary, Math.random()*boundary);
-      let particle = new THREE.Vector3(THREE.Math.randInt(-boundary, boundary),THREE.Math.randInt(-boundary, boundary),THREE.Math.randInt(-boundary, boundary));
+      // let particle = new THREE.Vector3(THREE.Math.randInt(-boundary, boundary),THREE.Math.randInt(-boundary*2, -boundary),THREE.Math.randInt(0, boundary));
+      let particle = new THREE.Vector3(THREE.Math.randInt(-boundary, boundary),THREE.Math.randInt(-boundary, boundary),THREE.Math.randInt(0, boundary));
       geom.vertices.push(particle);
   }
   // create point cloud with stored vertices and material. Add to scene.
-  mouseCloud = new THREE.Points(mouseGeom, pMaterial);
+  // mouseCloud = new THREE.Points(mouseGeom, pMaterial);
   cloud = new THREE.Points(geom, pMaterial);
-  scene.add(mouseCloud);
+
+  // cloud.rotation.x += 1.5;
+  // scene.add(mouseCloud);
   scene.add(cloud);
 
   // create new Cloud for particle physics system, initialise particle forces
   let cloudSystem = new Cloud(cloud);
   cloudSystem.initialise();
 
-  let mouseCloudSystem = new Cloud(mouseCloud);
-  mouseCloudSystem.initialise();
+  // let mouseCloudSystem = new Cloud(mouseCloud);
+  // mouseCloudSystem.initialise();
 
   // set other forces
   // let windLeft = new THREE.Vector3(-0.01,0.0,0.0);
@@ -213,7 +219,7 @@ function initScene() {
     const options = {
       // flipVertical: true,
       flipHorizontal: true,
-      minConfidence: 0.5
+      minConfidence: 0.3
     };
     // poseNet = ml5.poseNet(vidCor, options, modelReady);
     poseNet = ml5.poseNet(videoPos, options, modelReady);
@@ -224,7 +230,7 @@ function initScene() {
 
       if (!posesAdded) {
         for (let i = 0; i < 5; i++) {
-          movers[i] = new Mover(THREE.Math.randInt(0, boundary), THREE.Math.randInt(-boundary, 0), 500, 50, 800);
+          movers[i] = new Mover(THREE.Math.randInt(0, boundary), THREE.Math.randInt(-boundary, 0), 750, 25, 100);
           // movers[i] = new Mover(THREE.Math.randInt(-boundary, boundary), THREE.Math.randInt(-boundary, boundary), 0, 50, 500);
           // movers[i] = new Mover(Math.random()*boundary, boundary, 0, 50, 500);
           movers[i].initialise();
@@ -310,9 +316,9 @@ function initScene() {
 
   function mouseAttractOff() {
     mouseMover.mass = 0;
-    mouseMoverOp.mass = 0;
+    // mouseMoverOp.mass = 0;
     mouseMover.position.z = boundary*100;
-    mouseMoverOp.position.z = boundary*100;
+    // mouseMoverOp.position.z = boundary*100;
   }
 
  
@@ -329,7 +335,7 @@ function initScene() {
 
       // attract particle system to movers
       cloudSystem.attract(movers[i]);
-      mouseCloudSystem.attract(movers[i]);
+      // mouseCloudSystem.attract(movers[i]);
     }
 
     // apply forces to particle system and update vertices
@@ -339,11 +345,11 @@ function initScene() {
     cloudSystem.applyForce(windOut);
     cloudSystem.applyForce(windIn);
 
-    mouseCloud.geometry.verticesNeedUpdate = true;
-    mouseCloudSystem.applyForce(gravityUp);
-    mouseCloudSystem.applyForce(gravityDown);
-    mouseCloudSystem.applyForce(windOut);
-    mouseCloudSystem.applyForce(windIn);
+    // mouseCloud.geometry.verticesNeedUpdate = true;
+    // mouseCloudSystem.applyForce(gravityUp);
+    // mouseCloudSystem.applyForce(gravityDown);
+    // mouseCloudSystem.applyForce(windOut);
+    // mouseCloudSystem.applyForce(windIn);
 
     if (partsOn && pMaterial.opacity < 1) {
       pMaterial.opacity +=0.01;
@@ -352,27 +358,29 @@ function initScene() {
     }
 
     if(coreoOn) {
-      mouseCloudSystem.attract(mouseMoverOp);
+      // loadPosenet();
+
+      // mouseCloudSystem.attract(mouseMoverOp);
       cloudSystem.attract(mouseMover);
     }
 
     if (formOn) {
-      loadPosenet();
+      // loadPosenet();
       mouseAttractOff();
       formOn = false;
     }
 
     if (jamOn) {
+      // if  (cloud.rotation.x < 1.5) {
+      //   cloud.rotation.x += 0.05;
+      // }
+
       // pMaterial.sizeAttenuation = false;
       // pMaterial.color = "#508DBF";
       let webcamAdded = false;
       if (!webcamAdded) {
         camVid.appendChild(videoOut); // display video input
         camVid.style.opacity = 1;
-        // vidCor.opacity = 0;
-        // vidJam01.disabled = false;
-        // vidJam01.opacity = 1;
-        // vidDiv.appendChild(vidJam01);
         vidDiv.style.opacity = 0;
         webcamAdded = true;
       }
@@ -383,76 +391,82 @@ function initScene() {
     }
 
     if (jam01On) {
-      let jam01Added = false;
-      if (!jam01Added) {
-        createPlane();
-        let vidJam01Src = document.getElementById( 'vidJam01' );
-        vidJam01Src.play();
-        let jam01texture = new THREE.VideoTexture( vidJam01Src );
-        // jam01texture.minFilter = THREE.LinearFilter;
-        // jam01texture.magFilter = THREE.LinearFilter;
-        jam01texture.format = THREE.RGBFormat;
-        planeMaterial.map = jam01texture;
+
+      // let jam01Added = false;
+      // if (!jam01Added) {
+      //   createPlane();
+      //   let vidJam01Src = document.getElementById( 'vidJam01' );
+      //   vidJam01Src.play();
+      //   let jam01texture = new THREE.VideoTexture( vidJam01Src );
+      //   // jam01texture.minFilter = THREE.LinearFilter;
+      //   // jam01texture.magFilter = THREE.LinearFilter;
+      //   jam01texture.format = THREE.RGBFormat;
+      //   planeMaterial.map = jam01texture;
+        
         // light1.color = 0x95C077;
-        jam01Added = true;
-      }
+        // jam01Added = true;
+      // }
     }
 
     if (jam02On) {
-      let jam02Added = false;
-      if (!jam02Added) {
-        let vidJam02Src = document.getElementById( 'vidJam02' );
-        vidJam02Src.play();
-        let jam02texture = new THREE.VideoTexture( vidJam02Src );
-        // jam01texture.minFilter = THREE.LinearFilter;
-        // jam01texture.magFilter = THREE.LinearFilter;
-        jam02texture.format = THREE.RGBFormat;
-        planeMaterial.map = jam02texture;
-        // planeMaterial.color = "red";
+
+      // let jam02Added = false;
+      // if (!jam02Added) {
+      //   let vidJam02Src = document.getElementById( 'vidJam02' );
+      //   vidJam02Src.play();
+      //   let jam02texture = new THREE.VideoTexture( vidJam02Src );
+      //   // jam01texture.minFilter = THREE.LinearFilter;
+      //   // jam01texture.magFilter = THREE.LinearFilter;
+      //   jam02texture.format = THREE.RGBFormat;
+      //   planeMaterial.map = jam02texture;
+        
         // light1.color = 0xBE74D4;
-        jam02Added = true;
-      }
+        // jam02Added = true;
+      // }
     }
 
 
     if (jam03On) {
-      let jam03Added = false;
-      if (!jam03Added) {
-        let vidJam03Src = document.getElementById( 'vidJam03' );
-        vidJam03Src.play();
-        let jam03texture = new THREE.VideoTexture( vidJam03Src );
-        // jam01texture.minFilter = THREE.LinearFilter;
-        // jam01texture.magFilter = THREE.LinearFilter;
-        jam03texture.format = THREE.RGBFormat;
-        planeMaterial.map = jam03texture;
-        // planeMaterial.color = "red";
-        // light1.color = 0xE3BF7A;
-        jam03Added = true;
-      }
+
+      // let jam03Added = false;
+      // if (!jam03Added) {
+      //   let vidJam03Src = document.getElementById( 'vidJam03' );
+      //   vidJam03Src.play();
+      //   let jam03texture = new THREE.VideoTexture( vidJam03Src );
+      //   // jam01texture.minFilter = THREE.LinearFilter;
+      //   // jam01texture.magFilter = THREE.LinearFilter;
+      //   jam03texture.format = THREE.RGBFormat;
+      //   planeMaterial.map = jam03texture;
+
+      //   // light1.color = 0xE3BF7A;
+      //   jam03Added = true;
+      // }
     }
 
 
 
     if (transOn) {
       attractToPetals();
-      let jam04Added = false;
-      if (!jam04Added) {
-        let vidJam04Src = document.getElementById( 'vidJam04' );
-        vidJam04Src.play();
-        let jam04texture = new THREE.VideoTexture( vidJam04Src );
-        // jam01texture.minFilter = THREE.LinearFilter;
-        // jam01texture.magFilter = THREE.LinearFilter;
-        jam04texture.format = THREE.RGBFormat;
-        planeMaterial.map = jam04texture;
-        // planeMaterial.color = "red";
-        jam04Added = true;
-      }
+
+      // let jam04Added = false;
+      // if (!jam04Added) {
+      //   let vidJam04Src = document.getElementById( 'vidJam04' );
+      //   vidJam04Src.play();
+      //   let jam04texture = new THREE.VideoTexture( vidJam04Src );
+      //   // jam01texture.minFilter = THREE.LinearFilter;
+      //   // jam01texture.magFilter = THREE.LinearFilter;
+      //   jam04texture.format = THREE.RGBFormat;
+      //   planeMaterial.map = jam04texture;
+      //   // planeMaterial.color = "red";
+      //   jam04Added = true;
+      // }
+
     }
 
     if (altarOn) {
-      planeMaterial.opacity = 0;
-      // jamPlane.visible = false;
-      // jamPlane.remove();
+      // planeMaterial.opacity = 0;
+      // // jamPlane.visible = false;
+      // // jamPlane.remove();
       camVid.style.opacity = 1;
 
       let petalsAdded = false;
@@ -463,8 +477,8 @@ function initScene() {
       animatePetals();
     }
 
-    mouseCloudSystem.update();
-    mouseCloudSystem.checkEdges();
+    // mouseCloudSystem.update();
+    // mouseCloudSystem.checkEdges();
 
     cloudSystem.update();
     cloudSystem.checkEdges();
@@ -500,10 +514,11 @@ function initScene() {
       this.min = new THREE.Vector3(-30,-30,-30);
 
       // create particle mesh (geometry + material)
-      let geometry = new THREE.SphereGeometry(this.r,3,3);
+      let geometry = new THREE.SphereGeometry(this.r,5,25);
 
       // let material =  new THREE.MeshPhongMaterial( { shininess: 5, flatShading: false, color: colors[0]} );
       let material =  new THREE.MeshToonMaterial( { flatShading: false, color: colors[0], transparent: true, opacity: 0 } );
+      // let material =  new THREE.MeshLambertMaterial( { flatShading: true, color: colors[0], transparent: true, opacity: 1,shininess: 30, emissive:0xff0000 } );
 
       let sphere = new THREE.Mesh(geometry, material);
       grMovers.add(sphere);
@@ -534,52 +549,58 @@ function initScene() {
           this.acceleration.multiplyScalar(0);
       }
 
-      this.checkEdges = function() {
-          if (this.position.x > boundary){
-              this.position.x = boundary;
-              this.velocity.x *= -1;
-          }
-          else if (this.position.x < 0){
-              this.position.x = 0;
-              this.velocity.x *= -1;
-          }
+      // this.moveRandom = function() {
+      //   this.velocity.x += THREE.Math.randFloat(-1, 1)
+      // }
 
-          if (this.position.y > boundary){
-              this.position.y = boundary;
-              this.velocity.y *= -1;
-          }
-          else if (this.position.y < 0){
-              this.position.y = 0;
-              this.velocity.y *= -1;
-          }
+      // this.checkEdges = function() {
+      //     if (this.position.x > boundary){
+      //         this.position.x = boundary;
+      //         this.velocity.x *= -1;
+      //     }
+      //     else if (this.position.x < 0){
+      //         this.position.x = 0;
+      //         this.velocity.x *= -1;
+      //     }
 
-          if (this.position.z > boundary){
-              this.position.z = boundary;
-              this.velocity.z *= -1;
-          }
-          else if (this.position.z < 0){
-              this.position.z = 0;
-              this.velocity.z *= -1;
-          }                      
-      }
+      //     if (this.position.y > boundary){
+      //         this.position.y = boundary;
+      //         this.velocity.y *= -1;
+      //     }
+      //     else if (this.position.y < 0){
+      //         this.position.y = 0;
+      //         this.velocity.y *= -1;
+      //     }
 
-      this.calculateAttraction = function(m) {
-          let tempPos = this.position.clone();
-          let force = tempPos.sub(m.position);
-          let distance = Math.max(force.length()+25,25);
-          // let distance = force.length();
-          force.normalize();
-          // let strength = (0.001*this.mass*this.mass)/(distance*distance);
-          let strength = (0.5*this.mass*this.mass)/(distance*distance);
-          force.multiplyScalar(strength);
-          return force;
-      }
+      //     // if (this.position.z > boundary){
+      //     //     this.position.z = boundary;
+      //     if (this.position.z > boundary){
+      //         this.position.z = boundary;
+      //         this.velocity.z *= -1;
+      //     }
+      //     else if (this.position.z < 0){
+      //         this.position.z = 0;
+      //         this.velocity.z *= -1;
+      //     }                      
+      // }
+
+      // this.calculateAttraction = function(m) {
+      //     let tempPos = this.position.clone();
+      //     let force = tempPos.sub(m.position);
+      //     let distance = Math.max(force.length()+25,25);
+      //     // let distance = force.length();
+      //     force.normalize();
+      //     // let strength = (0.001*this.mass*this.mass)/(distance*distance);
+      //     let strength = (0.5*this.mass*this.mass)/(distance*distance);
+      //     force.multiplyScalar(strength);
+      //     return force;
+      // }
   }
 
   function Cloud(cloudGroup) {
     this.vertices = cloudGroup.geometry.vertices;
-    this.max = new THREE.Vector3(5,5,5);
-    this.min = new THREE.Vector3(-5,-5,-5);
+    this.max = new THREE.Vector3(10,10,10);
+    this.min = new THREE.Vector3(-10,-10,-10);
     this.velocities = [];
     this.accelerations = [];
     this.mass = 20;
@@ -630,8 +651,8 @@ function initScene() {
           this.velocities[i].y *= -1;
         }
 
-        if (this.vertices[i].z > boundary){
-          this.vertices[i].z = boundary;
+        if (this.vertices[i].z > boundary*1.5){
+          this.vertices[i].z = boundary*1.5;
           this.velocities[i].z *= -1;
         }
         else if (this.vertices[i].z < 0){
@@ -647,11 +668,14 @@ function initScene() {
             let tempPos = m.position.clone();
             let aForce = tempPos.sub(tempVert);
             // let distance = Math.max(aForce.length()+25,25);
-            let distance = Math.max(aForce.length()+15,15);
+            // let distance = Math.max(aForce.length()+55,55);
+            let distance = Math.max(aForce.length()+25,25);
             aForce.normalize();
             let strength = 1*(this.mass*this.mass)/(distance*distance);
             aForce.multiplyScalar(strength);
             this.accelerations[i].add(aForce);
+
+
         }
       }
   }
@@ -682,16 +706,18 @@ function initScene() {
     petalsCont.position.z = 1390;
     petalsCont.position.x = 0;
     petalsCont.position.y = 0;
-    petalsMover = new Mover(boundary, boundary/1.1, boundary/1.1, 60, 1000);
+    // petalsMover = new Mover(boundary, boundary/1.1, boundary/1.1, 60, 1000);
+    petalsMover = new Mover(0, 0, 500, 25, 800);
     petalsMover.initialise();
   }
   function animatePetals() {
+    console.log("animando");
     for (let i = 0; i < numPetals; i++) {
       // petals[i].rotation.x += petals[i].speedX*1.2;
       // petals[i].rotation.y += petals[i].speedY*1.2;
       // petals[i].rotation.z += petals[i].speedZ*1.2;
       
-      if ( petals[i].material.opacity < 1 ) {
+      if ( petals[i].material.opacity < 0.70 ) {
         petals[i].material.opacity += 0.0005;
       }
 
@@ -701,15 +727,15 @@ function initScene() {
 
   function attractToPetals() {
     cloudSystem.attract(petalsMover);
-    mouseCloudSystem.attract(petalsMover);
+    // mouseCloudSystem.attract(petalsMover);
   }
 
-  function createPlane() {
-    jamPlane = new THREE.Mesh( planeGeom, planeMaterial );
-    jamPlane.position.z = 800;
-    // jamPlane.translate(0,0,5);
-    scene.add( jamPlane );
-  }
+  // function createPlane() {
+  //   jamPlane = new THREE.Mesh( planeGeom, planeMaterial );
+  //   jamPlane.position.z = 800;
+  //   // jamPlane.translate(0,0,5);
+  //   scene.add( jamPlane );
+  // }
 }
 
 

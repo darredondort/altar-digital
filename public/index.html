@@ -16,12 +16,12 @@
 
   <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenLite.min.js'></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/easing/EasePack.min.js'></script>
-  <script src='https://threejs.org/build/three.js'></script>
+  <!-- <script src='https://threejs.org/build/three.js'></script> -->
 
   <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenLite.min.js'></script> -->
   <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/easing/EasePack.min.js'></script> -->
   
-  <script src='https://threejs.org/examples/js/controls/OrbitControls.js'></script>
+  <!-- <script src='https://threejs.org/examples/js/controls/OrbitControls.js'></script> -->
   <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/easing/EasePack.min.js'></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenLite.min.js'></script>
   <script src="https://unpkg.com/ml5@0.4.3/dist/ml5.min.js"></script>
@@ -34,15 +34,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Baskervville:ital@0;1&display=swap" rel="stylesheet"> 
   <link rel="stylesheet" href="css/style.css">
 
-  <!-- <script type="text/javascript" src="./src/textos.js"></script> -->
-  <!-- <script type="text/javascript" src="./src/textos-3d.js"></script> -->
 
 
-  
+
+
 
 </head>
 
 <body>
+
+
   <!-- partial:index.partial.html -->
   <div id="sceneCont">
     <div id="videoCont"> </div>    
@@ -121,11 +122,11 @@
 
       <video id="vidCor" width="1920" height="1080" autoplay >
         <!-- <source src="video/prueba_01-invertida.mp4" type="video/mp4"> -->
-        <source src="video/coreo_02-web.mp4" type="video/mp4">
+        <source src="video-web/coreo_02-web.mp4" type="video/mp4">
         <!-- <source src="video/prueba_01.mp4" type="video/mp4"> -->
       </video> 
       
-      <video id="vidJam01" width="1920" height="1080">
+      <!-- <video id="vidJam01" width="1920" height="1080">
         <source src="video/ad_jam_luz_01-web.mp4" type="video/mp4">
       </video> 
 
@@ -139,7 +140,7 @@
 
       <video id="vidJam04" width="1920" height="1080">
         <source src="video/ad_jam_altar_01-web.mp4" type="video/mp4">
-      </video> 
+      </video>  -->
 
       <!-- <figure>
         <p>0</p>
@@ -150,11 +151,15 @@
 
 
   <!-- <script src="./script.js"></script> -->
-  <script src="./src/main.js"></script>
+  <!-- <script src="./src/main.js"></script>
   <script src="./src/altarScene.js"></script>
-  <script src="./src/textos.js"></script>
+  <script src="./src/textos.js" type="module"></script> -->
   <!-- <script type="text/javascript" src="mover.js"></script> -->
 
+  <script src="./src/main.js"></script>
+  <script src="./src/altarScene.js" type="module"></script>
+  <script src="./src/triggers.js"></script>
+  <!-- <script src="./src/textos.js" type="module"></script> -->
 
 </body>
 
