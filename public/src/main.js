@@ -5,10 +5,10 @@ let scrolly = main.select("#scrolly");
 let article = scrolly.select("article");
 let step = article.selectAll(".step");
 
-let button = document.getElementById("form-button");
-let nombre = document.getElementById("nombre");
-let nacio = document.getElementById("nacio");
-let murio = document.getElementById("murio");
+// let button = document.getElementById("form-button");
+// let nombre = document.getElementById("nombre");
+// let nacio = document.getElementById("nacio");
+// let murio = document.getElementById("murio");
 
 let introOn = false;
 let partsOn = false;
@@ -23,10 +23,10 @@ let jam02On;
 let jam03On;
 
 
-if ( nombre.value && nacio.value && murio.value ) {
-  button.disabled = false;
-  console.log(nombre.value, nacio.value, murio.value)
-} 
+// if ( nombre.value && nacio.value && murio.value ) {
+//   button.disabled = false;
+//   console.log(nombre.value, nacio.value, murio.value)
+// } 
 
 // initialize the scrollama
 let scroller = scrollama();
@@ -67,20 +67,32 @@ function handleResize() {
   //  } 
 
    if (response.index == 1) {
-    coreoOn = false;
-    formOn = false;
     introOn = false;
-
     coreoOn = true;
+    formOn = false;
+    partsOn = true;
+    jamOn = false;
+    console.log("coreoOn");
+    console.log(coreoOn);
+    jam01On = false;
+    jam02On = false;
+    jam03On = false;
+    
     console.log("coreoOn");
    }
   
    if (response.index == 4) {
-    partsOn = false;
+    introOn = false;
     coreoOn = false;
     formOn = true;
+    partsOn = false;
+    jamOn = true;
     console.log("formOn");
     console.log(formOn);
+    jam01On = false;
+    jam02On = false;
+    jam03On = false;
+    console.log("jam01On")
    }
 
   // if (response.index === 5 || response.index === 6 || response.index === 7 ) {
@@ -91,6 +103,7 @@ function handleResize() {
   // }
 
   if (response.index === 5 ) {
+    introOn = false;
     coreoOn = false;
     formOn = false;
     partsOn = true;
@@ -102,6 +115,7 @@ function handleResize() {
     console.log("jam01On")
   }
   if (response.index === 6 ) {
+    introOn = false;
     coreoOn = false;
     formOn = false;
     partsOn = true;
@@ -113,6 +127,7 @@ function handleResize() {
     console.log("jam02On")
   }
   if (response.index === 7 ) {
+    introOn = false;
     coreoOn = false;
     formOn = false;
     partsOn = true;
@@ -126,6 +141,7 @@ function handleResize() {
 
 
   if (response.index === 8 ) {
+      introOn = false;
       coreoOn = false;
       formOn = false;
       jam01On = false;
@@ -138,6 +154,7 @@ function handleResize() {
   }
 
   if (response.index === 9 ) {
+      introOn = false;
       coreoOn = false;
       formOn = false;
       altarOn = true;

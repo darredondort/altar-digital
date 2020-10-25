@@ -32,13 +32,6 @@
 'use strict';
 
 
-// soundFormats('mp3', 'ogg');
-// let portadaForm= loadSound('audio/3_formularioLoop_MIX1_96kb.mp3');
-// let sounds = [];
-let introSound;
-let coreoSound;
-let formSound;
-
 let sounds = [];
 let soundCount = 7;
 let soundPlaying;
@@ -57,8 +50,6 @@ let subsJam03 = ["Lanza los brazos hacia arriba","Creatura, la vida es tuya, muy
 let subsJam03Triggers = [5, 8, 14, 22, 25, 28, 33, 42, 48, 53, 59, 65, 71, 74, 77, 80];
 let subsJam03Toggle = false;
 
-let textAlpha = 0;
-
 var x = 0;
 var y = 0;
 var stepSize = 5.0;
@@ -69,8 +60,21 @@ var angleDistortion = 0.0;
 
 var counter = 0;
 
-let canvas;
+let coreoSteps;
+
+let canvasRitual;
+let nombre;
+let nacio;
+let murio;
 let textInput;
+let yearPetals;
+let form;
+
+let nombreString;
+let nacioString;
+let murioString;
+let textInputString;
+
 let formButton;
 
 function preload() {
@@ -82,7 +86,7 @@ function preload() {
 
 function setup() {
   // use full screen size
-  canvas = createCanvas(displayWidth, displayHeight).parent('canvasRitual');
+  canvasRitual = createCanvas(displayWidth, displayHeight).parent('canvasRitual');
   background(255,0);
   cursor(CROSS);
 
@@ -103,8 +107,15 @@ function setup() {
   textFont('Cormorant Garamond');
   textAlign(LEFT);
   fill(255);
-  textInput = select("#text-input");
 
+  coreoSteps = selectAll(".coreo-step");
+
+  form = select("#form");
+
+  nombre = select("#nombre");
+  nacio = select("#nacio");
+  murio = select("#murio");
+  textInput = select("#text-input");
   formButton = select("#form-button");
   formButton.mousePressed(replaceText);
 
@@ -114,11 +125,10 @@ function setup() {
 }
 
 function draw() {
-  // background(255,200,200,100);
-  // rect(500,500);
-  if (soundPlaying) {
-    console.log(round(soundPlaying.currentTime(),2));
-  }
+
+  // if (soundPlaying) {
+  //   // console.log(round(soundPlaying.currentTime(),2));
+  // }
   fill(255,10)
   textAlign(CENTER,CENTER);
   textSize(24);
@@ -127,33 +137,23 @@ function draw() {
 
   if (introOn && sounds[0].isLoaded() && sounds[0].isPlaying() == false) {
     // currSub = "introOn";
+    currSub = "";
     clear();
     fadeOutSounds();   
     triggerSound(sounds[0]); 
-    // progressBar(sounds[0]);
-    // sounds[0].setLoop(false); 
-    // sounds[0].play();
-    // soundPlaying = sounds[0];
   }
-
-  // if (!coreoOn && sounds[0].isLoaded() && sounds[0].isPlaying() == false) {
-  //   sounds[0].setLoop(false);
-  //   sounds[0].play();
-  // }
 
   if (coreoOn && sounds[1].isLoaded() && sounds[1].isPlaying() == false) {
     // currSub = "coreoOn";
+    currSub = "";
     clear();
     fadeOutSounds();   
     triggerSound(sounds[1])   
-    // sounds[1].setLoop(false); 
-    // sounds[1].play();
-    // soundPlaying = sounds[1];
-    // mapCurrentTime(sounds[1])
   }
 
   if (formOn && sounds[2].isLoaded() && sounds[2].isPlaying() == false) {
     // currSub = "formOn";
+    currSub = "";
     clear();
     fadeOutSounds();   
     triggerSound(sounds[2]);  
@@ -162,6 +162,7 @@ function draw() {
   if (jam01On) {
     startSubsJam01();
     if (sounds[3].isLoaded() && sounds[3].isPlaying() == false) {
+      currSub = "";
       clear();
       fadeOutSounds();   
       triggerSound(sounds[3]);  
@@ -171,6 +172,7 @@ function draw() {
   if (jam02On) {
     startSubsJam02();
     if (sounds[4].isLoaded() && sounds[4].isPlaying() == false) {
+      currSub = "";
       clear();
       fadeOutSounds();   
       triggerSound(sounds[4]);  
@@ -180,6 +182,7 @@ function draw() {
   if (jam03On) {
     startSubsJam03();
     if (sounds[5].isLoaded() && sounds[5].isPlaying() == false) {
+      currSub = "";
       clear();
       fadeOutSounds();   
       triggerSound(sounds[5]);  
@@ -187,22 +190,34 @@ function draw() {
   }
   
   if (transOn) {
+    clear();
     currSub = "sigue bajando...";
-
   }
 
 
+  if (altarOn) {
 
-  if (altarOn && sounds[6].isLoaded() && sounds[6].isPlaying() == false) {
-    fadeOutSounds();   
-    triggerSound(sounds[6]);  
+    if (sounds[6].isLoaded() && sounds[6].isPlaying() == false) {
+      currSub = "";
+      clear();
+      fadeOutSounds();   
+      triggerSound(sounds[6]);  
+    }
+    fill(255,10)
+    drawFormText();
+
   }
+  
 
 
 
-  if (altarOn && mouseIsPressed && mouseButton == LEFT) {
-    drawTextMousePath();
-  }
+
+
+
+
+  // if (altarOn && mouseIsPressed && mouseButton == LEFT) {
+  //   drawTextMousePath();
+  // }
 }
 
 
@@ -552,6 +567,20 @@ function startSubsJam03() {
   
 }
 
+function drawFormText() {
+  let yearsString = `Vivió ${yearPetals} años en esta tierra...`;
+  console.log("drawing: ",nombreString, yearsString, textInputString);
+  fill(255);
+  textSize(32);
+  text(nombreString, width/2, height*0.70);
+  textSize(22);
+  text(yearsString, width/2, height*0.80);
+  text(textInputString, width/2, height*0.85);
+}
+
+
+
+
 function mapCurrentTime(currSound) {
   console.log("playing new sample at:");
   console.log(currSound.currentTime());
@@ -580,9 +609,34 @@ function mousePressed() {
 
 
 function replaceText() {
+  // coreoSteps.hide();
+  // console.log(coreoSteps);
+  for (let i = 0; i < coreoSteps.length; i++) {
+    // coreoSteps.removeClass("is-active");
+    // coreoSteps.addClass("faded");
+  coreoSteps[i].hide();
+}
+  form.removeClass("is-active");
+  form.addClass("faded");
+
   letters = textInput.value();
   console.log(letters);
-  return false;
+
+  nombreString = nombre.value();
+  nacioString = nacio.value();
+  murioString = murio.value();
+  textInputString = textInput.value();
+
+  console.log(nombreString);
+  console.log(nacioString);
+  console.log(murioString);
+  console.log(textInputString);
+
+  yearPetals = int(murioString) - int(nacioString);
+  console.log(`Vivió ${yearPetals} años en esta tierra...`)
+
+  // return false;
+
 }
 
 
