@@ -182,6 +182,13 @@ h4{
   transition: opacity 3.5s ease-in-out;
 }
 
+#canvasRitual {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 16;
+}
+
 
 #poema-altar {
   position: relative;
@@ -203,18 +210,19 @@ h4{
 
 #videoCont, #camVid {
   position: fixed;
-  background:black;
+  /* background:black; */
   width: 100%;
-  opacity: 0.75;
+  opacity: 1;
   /* pointer-events: none; */
-  mix-blend-mode: overlay;    
+  /* mix-blend-mode: color-dodge;     */
+  mix-blend-mode: soft-light;    
   background-repeat: repeat-x;   
   transform: rotateY(180deg);
   -webkit-transform:rotateY(180deg);
   -moz-transform:rotateY(180deg);
   /* -moz-box-shadow: 1px 2px 3px rgba(0,0,0,.5); */
   -webkit-box-shadow: 1px 2px 3px rgba(0,0,0,.5);
-  box-shadow: 1px 2px 3px rgba(0,0,0,.5);
+  /* box-shadow: 1px 2px 3px rgba(0,0,0,.5); */
   display: flex;
   justify-content: center;
   align-items: center;

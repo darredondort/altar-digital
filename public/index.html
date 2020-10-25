@@ -5,6 +5,8 @@
   <title>Altar Digital</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   <script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/addons/p5.sound.js"></script>
+  
 
   <script src="https://unpkg.com/intersection-observer@0.5.1/intersection-observer.js"></script>
   <script src="https://unpkg.com/scrollama"></script>
@@ -49,6 +51,8 @@
     <div id="videoCont"> </div>    
     <div id="camVid"> </div>    
   </div>
+  <div id="canvasRitual"></div>
+
 
   <main>
     <div id="scrolly">
@@ -109,20 +113,20 @@
         <div class="step" data-step="8" id="jam03">
           <p>OFRENDA</p>
         </div>  
-         
+          
         <div class="step" data-step="9" id="transicion">
           transición - Recuérdales 
         </div>  
         <div class="step" data-step="10" id="altar">
-          <div id="poema-altar"></div>
         </div>  
         
 
       </article>
 
-      <video id="vidCor" width="1920" height="1080" autoplay >
+      <!-- <video id="vidCor" width="1920" height="1080" autoplay > -->
+      <video id="vidCor" width="1920" height="1080">
         <!-- <source src="video/prueba_01-invertida.mp4" type="video/mp4"> -->
-        <source src="video-web/coreo_02-web.mp4" type="video/mp4">
+        <source src="video-web/coreo_03-web.mp4" type="video/mp4">
         <!-- <source src="video/prueba_01.mp4" type="video/mp4"> -->
       </video> 
       

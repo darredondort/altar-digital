@@ -35,6 +35,9 @@ function initScene() {
   light4.position.set(50,-50,10);
   scene.add(light4);
 
+  // scene.background = new THREE.Color( 0xefd1b5 );
+	scene.fog = new THREE.FogExp2( 0x000000, 0, -boundary);
+
 
 
 
@@ -60,6 +63,7 @@ function initScene() {
   // get video element (mp4) & disable display
   let vidCor = document.getElementById("vidCor");
   vidCor.disabled = true;
+  // vidCor.disabled = true;
 
   // get video element (mp4) & disable display
   // let vidJam01 = document.getElementById("vidJam01");
@@ -113,32 +117,32 @@ function initScene() {
   });
 
   // initialise mover attractors
-  let movers = [];
-  let grMovers = new THREE.Group();
-  scene.add( grMovers );
+  let attractors = [];
+  let grAttractors = new THREE.Group();
+  scene.add( grAttractors );
 
   // initialise mouse attractors
   let mouse = new THREE.Vector2();
-  let mouseMover = new Mover(Math.random()*boundary, boundary, boundary/2, 50, 5);
-  // let mouseMoverOp = new Mover(Math.random()*boundary, boundary, 1000, 50, 15);
-  mouseMover.initialise();
-  // mouseMoverOp.initialise();
+  let mouseAttractor = new Attractor(Math.random()*boundary, boundary, boundary/2, 50, 25);
+  // let mouseAttractorOp = new Attractor(Math.random()*boundary, boundary, 1000, 50, 15);
+  mouseAttractor.initialise();
+  // mouseAttractorOp.initialise();
   function onDocumentMouseMove( event ) {
     mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
     mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
     // raycaster.setFromCamera( mouse.clone(), camera );   
     // raycaster.setFromCamera( mouse.clone(), camera );   
-    mouseMover.position.x = THREE.Math.mapLinear( mouse.x, -1, 1, -boundary, boundary );
-    mouseMover.position.y = THREE.Math.mapLinear( mouse.y, -1, 1, -boundary, boundary );
+    mouseAttractor.position.x = THREE.Math.mapLinear( mouse.x, -1, 1, -boundary, boundary );
+    mouseAttractor.position.y = THREE.Math.mapLinear( mouse.y, -1, 1, -boundary, boundary );
 
-    // mouseMoverOp.position.x = THREE.Math.mapLinear( mouse.x, -1, 1, boundary, -boundary );
-    // mouseMoverOp.position.y = THREE.Math.mapLinear( mouse.y, -1, 1, boundary, -boundary );
+    // mouseAttractorOp.position.x = THREE.Math.mapLinear( mouse.x, -1, 1, boundary, -boundary );
+    // mouseAttractorOp.position.y = THREE.Math.mapLinear( mouse.y, -1, 1, boundary, -boundary );
     // console.log(mouse.x,mouse.y)
-    mouseMover.update();
-    mouseMover.display();
+    mouseAttractor.update();
+    mouseAttractor.display();
 
-    // mouseMoverOp.update();
-    // mouseMoverOp.display();
+    // mouseAttractorOp.update();
+    // mouseAttractorOp.display();
   }
   document.addEventListener( 'mousemove', onDocumentMouseMove );
 
@@ -153,7 +157,9 @@ function initScene() {
   let texture = new THREE.TextureLoader().load( "img/texture_particle_05.png" );
   let pMaterial = new THREE.PointsMaterial({
       size: 8,
-      transparent: true,
+      transparent: false,
+      alphaTest: 0.5,
+      depthWrite: false,
       opacity: 0,
       map: texture,
       blending: THREE.AdditiveBlending,
@@ -192,16 +198,16 @@ function initScene() {
   // let windLeft = new THREE.Vector3(-0.01,0.0,0.0);
   // let windRight = new THREE.Vector3(0.01,0.0,0.0);
   let windIn = new THREE.Vector3(0,0.0,-0.05);
-  let windOut = new THREE.Vector3(0,0.0,0.05);
+  let windOut = new THREE.Vector3(0,0.0,0.08);
   let gravityUp = new THREE.Vector3(0.0,-0.01,0);
-  let gravityDown = new THREE.Vector3(0.0,0.01,0);
+  let gravityDown = new THREE.Vector3(0.0,0.05,0);
 
 
   // petals settings
   let numPetals = 80;
   let petals = [];
   let petalsCont = new THREE.Object3D();
-  let petalsMover;
+  let petalsAttractor;
   let petalPoints = [];
   for ( let i = 0; i < 10; i ++ ) {
     petalPoints.push( new THREE.Vector2( Math.sin( i * -0.2 ) * 30 + 5, ( i - 1 ) *  4) );
@@ -230,11 +236,11 @@ function initScene() {
 
       if (!posesAdded) {
         for (let i = 0; i < 5; i++) {
-          movers[i] = new Mover(THREE.Math.randInt(0, boundary), THREE.Math.randInt(-boundary, 0), 750, 25, 100);
-          // movers[i] = new Mover(THREE.Math.randInt(-boundary, boundary), THREE.Math.randInt(-boundary, boundary), 0, 50, 500);
-          // movers[i] = new Mover(Math.random()*boundary, boundary, 0, 50, 500);
-          movers[i].initialise();
-          movers[i].display();
+          attractors[i] = new Attractor(THREE.Math.randInt(0, boundary), THREE.Math.randInt(-boundary, 0), 750, 25, 100);
+          // attractors[i] = new Attractor(THREE.Math.randInt(-boundary, boundary), THREE.Math.randInt(-boundary, boundary), 0, 50, 500);
+          // attractors[i] = new Attractor(Math.random()*boundary, boundary, 0, 50, 500);
+          attractors[i].initialise();
+          attractors[i].display();
         }
         posesAdded = true;
       }
@@ -251,74 +257,74 @@ function initScene() {
 
         if (pose.keypoints) {
           let keyNose = pose.keypoints[0];
-          movers[0].position.x = THREE.Math.mapLinear( keyNose.position.x, 0, 255, -boundary, boundary );
-          movers[0].position.y = THREE.Math.mapLinear( keyNose.position.y, 255, 0, -boundary, boundary );
+          attractors[0].position.x = THREE.Math.mapLinear( keyNose.position.x, 0, 255, -boundary, boundary );
+          attractors[0].position.y = THREE.Math.mapLinear( keyNose.position.y, 255, 0, -boundary, boundary );
 
           // let keyLeftEye = pose.keypoints[1];
-          // movers[1].position.x = THREE.Math.mapLinear( keyLeftEye.position.x, 0, 255, -boundary, boundary );
-          // movers[1].position.y = THREE.Math.mapLinear( keyLeftEye.position.y, 0, 255, -boundary, boundary );
+          // attractors[1].position.x = THREE.Math.mapLinear( keyLeftEye.position.x, 0, 255, -boundary, boundary );
+          // attractors[1].position.y = THREE.Math.mapLinear( keyLeftEye.position.y, 0, 255, -boundary, boundary );
 
           // let keyRightEye = pose.keypoints[2];
-          // movers[2].position.x = THREE.Math.mapLinear( keyRightEye.position.x, 0, 255, -boundary, boundary );
-          // movers[2].position.y = THREE.Math.mapLinear( keyRightEye.position.y, 0, 255, -boundary, boundary );
+          // attractors[2].position.x = THREE.Math.mapLinear( keyRightEye.position.x, 0, 255, -boundary, boundary );
+          // attractors[2].position.y = THREE.Math.mapLinear( keyRightEye.position.y, 0, 255, -boundary, boundary );
 
           let keyLeftSho = pose.keypoints[5];
-          movers[1].position.x = THREE.Math.mapLinear( keyLeftSho.position.x, 0, 255, -boundary, boundary );
-          movers[1].position.y = THREE.Math.mapLinear( keyLeftSho.position.y, 255, 0, -boundary, boundary );
+          attractors[1].position.x = THREE.Math.mapLinear( keyLeftSho.position.x, 0, 255, -boundary, boundary );
+          attractors[1].position.y = THREE.Math.mapLinear( keyLeftSho.position.y, 255, 0, -boundary, boundary );
 
           let keyRightSho = pose.keypoints[6];
-          movers[2].position.x = THREE.Math.mapLinear( keyRightSho.position.x, 0, 255, -boundary, boundary );
-          movers[2].position.y = THREE.Math.mapLinear( keyRightSho.position.y, 255, 0, -boundary, boundary );  
+          attractors[2].position.x = THREE.Math.mapLinear( keyRightSho.position.x, 0, 255, -boundary, boundary );
+          attractors[2].position.y = THREE.Math.mapLinear( keyRightSho.position.y, 255, 0, -boundary, boundary );  
 
           // let keyLeftElb = pose.keypoints[7];
-          // movers[3].position.x = THREE.Math.mapLinear( keyLeftElb.position.x, 0, 255, -boundary, boundary );
-          // movers[3].position.y = THREE.Math.mapLinear( keyLeftElb.position.y, 255, 0, -boundary, boundary );
+          // attractors[3].position.x = THREE.Math.mapLinear( keyLeftElb.position.x, 0, 255, -boundary, boundary );
+          // attractors[3].position.y = THREE.Math.mapLinear( keyLeftElb.position.y, 255, 0, -boundary, boundary );
 
           // let keyRightElb = pose.keypoints[8];
-          // movers[4].position.x = THREE.Math.mapLinear( keyRightElb.position.x, 0, 255, -boundary, boundary );
-          // movers[4].position.y = THREE.Math.mapLinear( keyRightElb.position.y, 255, 0, -boundary, boundary );  
+          // attractors[4].position.x = THREE.Math.mapLinear( keyRightElb.position.x, 0, 255, -boundary, boundary );
+          // attractors[4].position.y = THREE.Math.mapLinear( keyRightElb.position.y, 255, 0, -boundary, boundary );  
 
           let keyLeftWrist = pose.keypoints[9];
-          movers[3].position.x = THREE.Math.mapLinear( keyLeftWrist.position.x, 0, 255, -boundary, boundary );
-          movers[3].position.y = THREE.Math.mapLinear( keyLeftWrist.position.y, 255, 0, -boundary, boundary );     
+          attractors[3].position.x = THREE.Math.mapLinear( keyLeftWrist.position.x, 0, 255, -boundary, boundary );
+          attractors[3].position.y = THREE.Math.mapLinear( keyLeftWrist.position.y, 255, 0, -boundary, boundary );     
           
           let keyRightWrist = pose.keypoints[10];
-          movers[4].position.x = THREE.Math.mapLinear( keyRightWrist.position.x, 0, 255, -boundary, boundary );
-          movers[4].position.y = THREE.Math.mapLinear( keyRightWrist.position.y, 255, 0, -boundary, boundary );
+          attractors[4].position.x = THREE.Math.mapLinear( keyRightWrist.position.x, 0, 255, -boundary, boundary );
+          attractors[4].position.y = THREE.Math.mapLinear( keyRightWrist.position.y, 255, 0, -boundary, boundary );
 
           // let keyLeftHip = pose.keypoints[11];
-          // movers[7].position.x = THREE.Math.mapLinear( keyLeftHip.position.x, 0, 255, -boundary, boundary );
-          // movers[7].position.y = THREE.Math.mapLinear( keyLeftHip.position.y, 255, 0, -boundary, boundary );     
+          // attractors[7].position.x = THREE.Math.mapLinear( keyLeftHip.position.x, 0, 255, -boundary, boundary );
+          // attractors[7].position.y = THREE.Math.mapLinear( keyLeftHip.position.y, 255, 0, -boundary, boundary );     
           
           // let keyRightHip = pose.keypoints[12];
-          // movers[8].position.x = THREE.Math.mapLinear( keyRightHip.position.x, 0, 255, -boundary, boundary );
-          // movers[8].position.y = THREE.Math.mapLinear( keyRightHip.position.y, 255, 0, -boundary, boundary );
+          // attractors[8].position.x = THREE.Math.mapLinear( keyRightHip.position.x, 0, 255, -boundary, boundary );
+          // attractors[8].position.y = THREE.Math.mapLinear( keyRightHip.position.y, 255, 0, -boundary, boundary );
 
           // let keyLeftKnee = pose.keypoints[13];
-          // movers[9].position.x = THREE.Math.mapLinear( keyLeftKnee.position.x, 0, 255, -boundary, boundary );
-          // movers[9].position.y = THREE.Math.mapLinear( keyLeftKnee.position.y, 255, 0, -boundary, boundary );     
+          // attractors[9].position.x = THREE.Math.mapLinear( keyLeftKnee.position.x, 0, 255, -boundary, boundary );
+          // attractors[9].position.y = THREE.Math.mapLinear( keyLeftKnee.position.y, 255, 0, -boundary, boundary );     
           
           // let keyRightKnee = pose.keypoints[14];
-          // movers[10].position.x = THREE.Math.mapLinear( keyRightKnee.position.x, 0, 255, -boundary, boundary );
-          // movers[10].position.y = THREE.Math.mapLinear( keyRightKnee.position.y, 255, 0, -boundary, boundary );
+          // attractors[10].position.x = THREE.Math.mapLinear( keyRightKnee.position.x, 0, 255, -boundary, boundary );
+          // attractors[10].position.y = THREE.Math.mapLinear( keyRightKnee.position.y, 255, 0, -boundary, boundary );
 
           // let keyLeftAnkle = pose.keypoints[15];
-          // movers[11].position.x = THREE.Math.mapLinear( keyLeftAnkle.position.x, 0, 255, -boundary, boundary );
-          // movers[11].position.y = THREE.Math.mapLinear( keyLeftAnkle.position.y, 255, 0, -boundary, boundary );     
+          // attractors[11].position.x = THREE.Math.mapLinear( keyLeftAnkle.position.x, 0, 255, -boundary, boundary );
+          // attractors[11].position.y = THREE.Math.mapLinear( keyLeftAnkle.position.y, 255, 0, -boundary, boundary );     
           
           // let keyRightAnkle = pose.keypoints[16];
-          // movers[12].position.x = THREE.Math.mapLinear( keyRightAnkle.position.x, 0, 255, -boundary, boundary );
-          // movers[12].position.y = THREE.Math.mapLinear( keyRightAnkle.position.y, 255, 0, -boundary, boundary );
+          // attractors[12].position.x = THREE.Math.mapLinear( keyRightAnkle.position.x, 0, 255, -boundary, boundary );
+          // attractors[12].position.y = THREE.Math.mapLinear( keyRightAnkle.position.y, 255, 0, -boundary, boundary );
         }
       }
     });
   }
 
   function mouseAttractOff() {
-    mouseMover.mass = 0;
-    // mouseMoverOp.mass = 0;
-    mouseMover.position.z = boundary*100;
-    // mouseMoverOp.position.z = boundary*100;
+    mouseAttractor.mass = 0;
+    // mouseAttractorOp.mass = 0;
+    mouseAttractor.position.z = boundary*100;
+    // mouseAttractorOp.position.z = boundary*100;
   }
 
  
@@ -326,16 +332,16 @@ function initScene() {
   let render = function () {
     // orbit.update();  
 
-    // loop through all movers
-    for (let i = 0; i < movers.length; i++) {
-      if (movers[i]) {
-        movers[i].update();
-        movers[i].display();
+    // loop through all attractors
+    for (let i = 0; i < attractors.length; i++) {
+      if (attractors[i]) {
+        attractors[i].update();
+        attractors[i].display();
       }
 
-      // attract particle system to movers
-      cloudSystem.attract(movers[i]);
-      // mouseCloudSystem.attract(movers[i]);
+      // attract particle system to attractors
+      cloudSystem.attract(attractors[i]);
+      // mouseCloudSystem.attract(attractors[i]);
     }
 
     // apply forces to particle system and update vertices
@@ -358,16 +364,17 @@ function initScene() {
     }
 
     if(coreoOn) {
+      vidCor.play();
       // loadPosenet();
 
-      // mouseCloudSystem.attract(mouseMoverOp);
-      cloudSystem.attract(mouseMover);
+      // mouseCloudSystem.attract(mouseAttractorOp);
+      cloudSystem.attract(mouseAttractor);
     }
 
     if (formOn) {
       // loadPosenet();
       mouseAttractOff();
-      formOn = false;
+      // formOn = false;
     }
 
     if (jamOn) {
@@ -384,7 +391,7 @@ function initScene() {
         vidDiv.style.opacity = 0;
         webcamAdded = true;
       }
-      console.log("jam trigger");
+      // console.log("jam trigger");
       if (partsOn && pMaterial.opacity < 1) {
         pMaterial.opacity += 0.1;
       }
@@ -503,7 +510,7 @@ function initScene() {
   //   console.log(o);
   // }
 
-  function Mover(x,y,z,r,m) {
+  function Attractor(x,y,z,r,m) {
       this.x = x;
       this.y = y;
       this.z = z;
@@ -521,7 +528,7 @@ function initScene() {
       // let material =  new THREE.MeshLambertMaterial( { flatShading: true, color: colors[0], transparent: true, opacity: 1,shininess: 30, emissive:0xff0000 } );
 
       let sphere = new THREE.Mesh(geometry, material);
-      grMovers.add(sphere);
+      grAttractors.add(sphere);
 
       this.initialise = function() {
           this.position = new THREE.Vector3(this.x,this.y,this.z);
@@ -651,12 +658,12 @@ function initScene() {
           this.velocities[i].y *= -1;
         }
 
-        if (this.vertices[i].z > boundary*1.5){
-          this.vertices[i].z = boundary*1.5;
+        if (this.vertices[i].z > boundary*1.2){
+          this.vertices[i].z = boundary*1.2;
           this.velocities[i].z *= -1;
         }
-        else if (this.vertices[i].z < 0){
-          this.vertices[i].z = 0;
+        else if (this.vertices[i].z < -boundary/2){
+          this.vertices[i].z = -boundary/2;
           this.velocities[i].z *= -1;
         }                      
       }
@@ -703,15 +710,15 @@ function initScene() {
       petals.push(petal);
       petalsCont.add(petal);
     }
-    petalsCont.position.z = 1390;
+    petalsCont.position.z = 1350;
     petalsCont.position.x = 0;
     petalsCont.position.y = 0;
-    // petalsMover = new Mover(boundary, boundary/1.1, boundary/1.1, 60, 1000);
-    petalsMover = new Mover(0, 0, 500, 25, 800);
-    petalsMover.initialise();
+    // petalsAttractor = new Attractor(boundary, boundary/1.1, boundary/1.1, 60, 1000);
+    petalsAttractor = new Attractor(0, 0, 1350, 25, 800);
+    petalsAttractor.initialise();
   }
   function animatePetals() {
-    console.log("animando");
+    // console.log("animando");
     for (let i = 0; i < numPetals; i++) {
       // petals[i].rotation.x += petals[i].speedX*1.2;
       // petals[i].rotation.y += petals[i].speedY*1.2;
@@ -726,8 +733,8 @@ function initScene() {
   }
 
   function attractToPetals() {
-    cloudSystem.attract(petalsMover);
-    // mouseCloudSystem.attract(petalsMover);
+    cloudSystem.attract(petalsAttractor);
+    // mouseCloudSystem.attract(petalsAttractor);
   }
 
   // function createPlane() {

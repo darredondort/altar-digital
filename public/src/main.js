@@ -10,6 +10,7 @@ let nombre = document.getElementById("nombre");
 let nacio = document.getElementById("nacio");
 let murio = document.getElementById("murio");
 
+let introOn = false;
 let partsOn = false;
 let coreoOn = false;
 let formOn = false;
@@ -49,15 +50,38 @@ function handleResize() {
    console.log(response);
    // response = { element, direction, index }
 
-   if (response.index >0 && !coreoOn) {
-    coreoOn = true;
-    partsOn = true;
-   } else if (response.index > 3 && coreoOn) {
+   if (response.index == 0) {
+    introOn = true;
     coreoOn = false;
-    partsOn = false;
-    formOn = true;
-    console.log(formOn);
+    formOn = false;
+    console.log("introOn");
+   }
+
+
+   if (response.index >0 && !coreoOn) {
+    partsOn = true;
+
    } 
+  //  else if (response.index == 4 && coreoOn) {
+  //   partsOn = false;
+  //  } 
+
+   if (response.index == 1) {
+    coreoOn = false;
+    formOn = false;
+    introOn = false;
+
+    coreoOn = true;
+    console.log("coreoOn");
+   }
+  
+   if (response.index == 4) {
+    partsOn = false;
+    coreoOn = false;
+    formOn = true;
+    console.log("formOn");
+    console.log(formOn);
+   }
 
   // if (response.index === 5 || response.index === 6 || response.index === 7 ) {
   //     coreoOn = false;
@@ -68,42 +92,54 @@ function handleResize() {
 
   if (response.index === 5 ) {
     coreoOn = false;
+    formOn = false;
     partsOn = true;
     jamOn = true;
     console.log("jamOn")
     jam01On = true;
+    jam02On = false;
+    jam03On = false;
     console.log("jam01On")
   }
   if (response.index === 6 ) {
     coreoOn = false;
+    formOn = false;
     partsOn = true;
     jamOn = true;
     console.log("jamOn")
     jam01On = false;
     jam02On = true;
+    jam03On = false;
     console.log("jam02On")
   }
   if (response.index === 7 ) {
     coreoOn = false;
+    formOn = false;
     partsOn = true;
     jamOn = true;
     console.log("jamOn")
+    jam01On = false;
     jam02On = false;
     jam03On = true;
     console.log("jam03On")
   }
 
 
-  if (response.index > 7 ) {
-      jamOn = false;
-      jam03 = false;
+  if (response.index === 8 ) {
+      coreoOn = false;
+      formOn = false;
+      jam01On = false;
+      jam02On = false;
+      jam03On = false;
 
       transOn = true;
       partsOn = true;
       console.log("transOn")
   }
 
-  if (response.index > 8 ) {
+  if (response.index === 9 ) {
+      coreoOn = false;
+      formOn = false;
       altarOn = true;
       partsOn = true;
       console.log("petalsOn")
