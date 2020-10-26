@@ -1,55 +1,26 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="no-js">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
- 
-
-
-    <title>Altar Digital</title>
-
-
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" as="font" type="font/woff2" crossorigin>
-
-
-    <link rel="stylesheet" type="text/css" href="css/intro.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   
+  <title>Altar Digital // Coming Soon</title>
+  <link 
+    rel="preload" 
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+    as="font"
+    crossorigin >
+
+    <link rel="icon" type="image/png" sizes="96x96" href="img/favicon.png">
 
 
 
 
-
-    <link rel="prefetch" href="index.html" as="document"/>
-    <link rel="prefetch" href="./video-web/coreo_03-web.mp4" as="video"/>
-
-
-    <link rel="prefetch" href="./src/main.js" as="script"/>
-    <link rel="prefetch" href="./src/triggers.js" as="script"/>
-    <link rel="prefetch" href="./src/textos-3d.js" as="script"/>
-    <link rel="prefetch" href="./src/altarScene.js" as="script"/>
-    <link rel="preconnect" href="https://storage.googleapis.com/tfjs-models/savedmodel/posenet/mobilenet/quant2/075/group1-shard1of1.bin"/>
-
-    <link rel="preconnect" href="https://unpkg.com/ml5@0.4.3/dist/ml5.min.js"/>
-    <link rel="preconnect" href="https://unpkg.com/scrollama">
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/addons/p5.sound.js">
-
-
-
-
-    <link rel="preload" as="css" href="css/style.css"/>
-
-
-    <link rel="shortcut icon" href="favicon.ico">
-
- 
-
-
-
-
-  
-<!-- <script>
+  <link rel="stylesheet" type="text/css" href="./css/style_comingsoon.css" />
+ <script>
     document.documentElement.className = "js";
-    var supportsCssVars = function() {
+    var supportsCssVars = function () {
       var e,
         t = document.createElement("style");
       return (
@@ -68,140 +39,66 @@
       alert(
         "Please view this demo in a modern browser that supports CSS Variables."
       );
-  </script> -->
+  </script> 
+  <!--script src="//tympanus.net/codrops/adpacks/analytics.js"></script-->
 
 
 
 
-<style> 
-
-
-
-
-
-  </style>
 
 
 
 </head>
 
-
 <body>
 
- <div class="petal" id="petals">
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-  
-  
-  
-  </div> 
+    <div id="demo3">
+    </div>
+
+    <div id="img-title">
+
+      <img src="./img/Alienation-01.png"/>
+    </div>
 
     
-  <!-- <div id="demo3">
-  </div> -->
-
- 
-  <div class="wrapper">
-
-    <header>
-      
-      <img src="./img/Alienation-01.png"/>
-
-        <h3>En Tu Memoria</br></h3>
-
-        <h4>  Bienvenidx creatura</br></h4><p>
-           Permíteme guiarte en este ritual para </br>recordar a lxs que solían vivir:</br></p>
-          </br>
-    </header>
-
-    <section class="row">
-
-      <div class="column">
-        <h2>1.</h2>
-        <p> <strong>Apaga la iluminación</strong> del espacio en donde estás y ten a la mano una <strong>linterna</strong> (puede ser la de tu
-          celular) o una veladora. </p>
+  <div class="main-content">
+    <div class="row">
+     <h2 class="main-title"> PRÓXIMAMENTE </h2>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div>
+          <a href="https://www.instagram.com/altardigital/"><img src="./img/ig.png" alt="logo IG" width="30px" id="ig"></a>
+        </div>
       </div>
+    </div>
+  </div>
+   
+<!-- </div>
+<canvas id="demo3" width="100" heigh="100"> </canvas>
+</div> -->
 
-      <div class="column">
-        <h2>2.</h2>
-        <p>Sitúate en un espacio adecuado para activar tu cuerpa/cuerpo/cuerpx en movimiento,<strong>habilita la
-          cámara</strong> y sube el volumen de tus bocinas para que me puedas escuchar.</p>
+<!-- 
+  <div class="main-content">
+   
+   
+    <div class="row ">
+      <div class="col">
+
+
+
+
+        <a href="https://www.instagram.com/altardigital/"><img src="img/ig.png" alt="logo IG" width="40px" id="ig"></a>
       </div>
-
-      <div class="column">
-        <h2>3.</h2>
-        <p> Respira profundo y responde desde adentro:<br>¿A quién quieres recordar hoy?</p>
-      </div>
-
-
-
-    </section>
-
-    <footer>
-      <div> <a href="index.html"> <button class="btninicio"> Iniciar el ritual</button> </a> </div>
-
-      <div> <a style="color:#ffffff" href="./about.html" id="acerca">Acerca de Altar</a> </div>
-    </footer>
+    </div>
 
   </div>
 
 
+  <div id="canvas"></div>
 
 
-
-  <!-- <div class="content">
-    <div class="row">
-      <div class="col">
-       
-
-
-
-
-
-
- 
-          <div>   <p>  </p>
-          </div> 
-  
-         
-  
-      </div>
-
-      <div class="col">
-
-        <div>    <p>  </br>   <strong> CUERPA</strong> </br>  Sitúate en un espacio adecuado para activar tu </br> cuerpa/cuerpo/cuerpx en movimiento, habilita</br> la cámara y sube el volumen de tus bocinas para </br> que me puedas escuchar.</br> </p> </div>
-<div>
-      </div>
-
-
-
-
-
-    </div>
-   
-   
-    </div> -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ -->
 
 
 
@@ -210,7 +107,8 @@
 </body>
 
 
-<!-- <script type="text/javascript" src="src/flowmap.js"></script>
+
+<script type="text/javascript" src="src/flowmap.js"></script>
 <script type="module">
   let imgSize = [400,300];
 
@@ -405,7 +303,9 @@
         renderer.render({ scene: mesh });
       }
     }
-  </script>  -->
+  </script> 
+
+
 
 
 

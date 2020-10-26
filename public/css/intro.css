@@ -1,39 +1,233 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
 
 
-#mi-body {
 
-    perspective: 3000px;
-    background-color: black;
-    font-family: 'Cormorant Garamond', serif;
-    
- 
+
+ * {
+	 box-sizing: border-box; 
+  } 
+  
+  body {
+	/* display: block; 
+	background-color: #000000;
+	/* position: fixed; */
+	text-align: center;
+  font-family: 'Cormorant Garamond', serif;
+	letter-spacing: 0.1em;
+	color: #ffffff;
+	/* flex-wrap: wrap; */
+	margin: 0;
+	width: 100%;
+	height: 100% !important;
+	background-image: url("../img/PORTADA.png");
+	background-attachment: fixed; 
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+  }
+
+
+  /* STRUCTURE */
+
+.wrapper {
+	/* padding: 5px; */
+  /* max-width: 100%; */
+  display: flex;
+  width: 100vw;
+  /* height: 100vh; */
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  padding: 50px 50px;
+
+	/* margin: 20px auto; */
+}
+header {
+  
+  justify-content: center;
+}
+
+header img{
+margin-top:7px;
+  width: 230px;
+
+
 }
 
 
+.row {
+	display: flex;
+  /* flex-flow: row wrap; */
+  flex-flow: wrap;
+	justify-content: center;
+	margin: 5px 0;
+}
 
+.column {
+  /* flex: 1; */
+  width: 25%;
+  /* height:100%; */
 
-
-
-.demo3{
-  background: url(../img/01.png) 90% top no-repeat;
-  background-size: 300px;
-    height: 260px;
-    width: auto;
+  /* margin: 0px 20px 0px 20px;
+    padding: 0px 20px 0px 20px; */
+	/* &:first-child { margin-left: 0; }
+	&:last-child { margin-right: 0; }
+	 */
 }
 
 
+h4{
 
 
+  font-size: 20px;
+  font-weight: lighter;
+  margin-block-start: 3em;
+  margin-block-end: 1.5em;
+
+}
 
 
 h3{
+
+  font-style:italic;
+  font-size: 25px;
+  font-weight: lighter;
+  margin-block-start: 0.5em;
+
+
+
+}
+
+h2{
+font-size: 48px;
+margin-block-start: 0em;
+margin-block-end: 0em;
+
+
+}
+
+p{
+  margin-block-start: 0.4em;
+
+
+}
+
+footer {
+  padding: 0 5px;
+
+
+}
+
+.btninicio{
+
+  background-color: transparent; 
+  background-position: 100% 0;
+  background-size: 200% 200%;
+  border: none; 
+  outline: solid;
+  outline-width: 1px;
+  color: rgb(228, 175, 39);
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-shadow: 0px 8px 8px rgba(255, 253, 253, 0.2);
+  text-align: center;
+  font-size: 16px;
+  width: 250px;
+  height: 40px; 
+  margin: 25px;
+  box-shadow: 0 16px 32px 0 rgba(252, 181, 100, 0.247);
+  font-family: 'Cormorant Garamond', serif;
+  z-index: 1;
+  cursor: pointer;
+  
+  
+}
+
+.btninicio:hover {
+  box-shadow: 0 16px 16px 0 rgba(255, 255, 255, 0.0966);
+  background-position: 0 0; 
+  color: rgb(252, 195, 88);
+  transition: all 0.5s;
+  -webkit-transform: scale(1.025);
+  -ms-transform: scale(1.025);
+  transform: scale(1.025);
+}
+
+
+
+.btninicio:disabled{
+  background-color: gray;
+  color: #242420; 
+  cursor: not-allowed;
+}
+
+
+
+
+
+
+
+
+a:-webkit-any-link {
+  text-decoration: none;
+  font-style:italic;
+
+}
+
+
+@media screen and (max-width: 980px) {
+  /* .row .column {
+		margin-bottom: 5px;
+    flex-basis: 40%;
+    &:nth-last-child(2) {
+			margin-right: 0;
+		}
+		&:last-child {
+			flex-basis: 100%;
+			margin: 0;
+		}
+  } */
+
+  .row {
+    flex-wrap: wrap;
+  }
+  
+}
+
+@media screen and (max-width: 680px) {
+	/* .row .column {
+		flex-basis: 100%;
+		margin: 0 0 5px 0;
+  } */
+  .row > .column {
+		flex-basis: 100%; 
+  }
+}
+  
+
+
+
+
+
+
+
+/* .demo3{
+
+  background-size: 300px;
+    height: 220px;
+    width: auto;
+} */
+
+
+
+
+
+
+/* h3{
   font-size: 1.25em;
   word-spacing: auto;
-  text-shadow: 0px 4px 12px rgba(253, 213, 53, 0.974);
   letter-spacing: 0.025em;
-
+  font-style: italic;
 }
         
 p{
@@ -59,19 +253,35 @@ line-height: 25px;
 }
 
 
-  
+  .texto{
 
+padding-top: 50px;
+
+
+  }
+
+.my-col3{
+
+padding-bottom: 50px;
+
+
+  }
+
+.my-col1{
+padding-bottom: 50px;
+
+} */
 
 
  /* BOTONES */
 
-.my-btn{
+/* .my-btn{
 
 justify-content: space-around;
 
 width: 30px;
 
- }
+ } */
 
  /* #my-btni{
 
@@ -81,7 +291,7 @@ border-radius: 22px;
  } */
 
 
-.btn-5{
+/* .btn-5{
 
   background-color: transparent; 
   background-position: 100% 0;
@@ -97,7 +307,7 @@ border-radius: 22px;
   font-size: 16px;
   width: 250px;
   height: 40px; 
-  /* transition: all 0.5s;  */
+  //transition: all 0.5s;  
 
   margin: 50px;
   box-shadow: 0 16px 32px 0 rgba(252, 181, 100, 0.247);
@@ -132,7 +342,7 @@ border-radius: 22px;
   font-size: 15px;
     width: 150px;
    
-}
+} */
 
 
 
@@ -152,6 +362,7 @@ border-radius: 22px;
     text-align: center;
     box-sizing: border-box;
     overflow: hidden;
+    z-index: -1;
 
   }
   
@@ -293,8 +504,7 @@ border-radius: 22px;
 
 #petals{
 
-    background: url(../img/02.png) 0.5% 103% no-repeat;
-    background-size: 230px; 
+
 
     animation: fadein 6s;
     -moz-animation: fadein 6s; /* Firefox */
