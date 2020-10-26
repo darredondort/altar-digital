@@ -1,6 +1,6 @@
 
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap'); */
  /*
 *{
   border: 1px solid rgba(228, 110, 158, 0.5); 
@@ -447,6 +447,7 @@ h4{
   border-color: white;
   line-height: 26px;
   background-color: transparent;
+  font-family: 'DM Mono', monospace;
   
 }
 
@@ -484,13 +485,20 @@ h4{
   font-size: 14px;
   height: 10vh;
   padding: 1em;
+  font-family: 'DM Mono', monospace;
 
 }
 
 #nombre, #nacio, #murio {
-  font-size: 24px;
+  font-size: 22px;
   color: white;
   padding: 1em;
+}
+
+textarea {
+  background-color: rgb(20,20,20);
+  border: rgb(20,20,20);
+  color: white;
 }
 
 input[type="number"]::-webkit-outer-spin-button,

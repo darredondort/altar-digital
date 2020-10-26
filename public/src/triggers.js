@@ -65,7 +65,7 @@ var counter = 0;
 
 let coreoSteps;
 let stepsOut;
-let currentJam;
+let currentJam = "";
 
 let canvasRitual;
 let nombre;
@@ -146,7 +146,7 @@ function draw() {
   // if (soundPlaying) {
   //   // console.log(round(soundPlaying.currentTime(),2));
   // }
-  fill(255,10)
+  fill(255,10);
   textAlign(CENTER,CENTER);
   textSize(24);
   text(currSub, width/2, height-height/4);
@@ -176,11 +176,11 @@ function draw() {
     triggerSound(sounds[2]);  
   }
   
-  if (jamOn) {
-    fill(250,10);
-    textSize(36);
-    text(currentJam, width/2, 150);
-  }
+  // if (jamOn) {
+  //   fill(250,10);
+  //   textSize(36);
+  //   text(currentJam, width/2, 150);
+  // }
 
   if (jam01On) {
     // jamTitle.html("1. LUZ");
@@ -193,6 +193,9 @@ function draw() {
       fadeOutSounds();   
       triggerSound(sounds[3]);  
     }
+    fill(250,10);
+    textSize(36);
+    text(currentJam, width/2, 150);
   }
 
   if (jam02On) {
@@ -207,6 +210,9 @@ function draw() {
       fadeOutSounds();   
       triggerSound(sounds[4]);  
     }
+    fill(250,10);
+    textSize(36);
+    text(currentJam, width/2, 150);
   }
 
   if (jam03On) {
@@ -221,6 +227,9 @@ function draw() {
       fadeOutSounds();   
       triggerSound(sounds[5]);  
     }
+    fill(250,10);
+    textSize(36);
+    text(currentJam, width/2, 150);
   }
   
   if (transOn) {
