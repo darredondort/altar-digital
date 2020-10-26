@@ -32,6 +32,7 @@
 'use strict';
 
 
+
 let sounds = [];
 let soundCount = 7;
 let soundPlaying;
@@ -47,8 +48,10 @@ let subsJam02Triggers = [5, 8, 15, 18, 24, 28, 31, 34, 41, 47, 50, 56, 61, 68];
 let subsJam02Toggle = false;
 
 let subsJam03 = ["Lanza los brazos hacia arriba","Creatura, la vida es tuya, muy tuya en este momento.","Siéntela Pulsando desde el corazón hasta la punta de tus dedos.","Inhala,","Siente el aire entre las costillas","la carne entre hueso y hueso,","Exhala,","Baja los brazos y sostenlos con ternura","¿A quién quieres recordar hoy?","Elles, nos abrazan en las noches más obscuras,","Susurran sabiduría","En tu sangre esperan por ti.","Ya están aquí...","...en tu cuerpo...","...y en tu memoria"];
-let subsJam03Triggers = [5, 8, 14, 22, 25, 28, 33, 42, 48, 53, 59, 65, 71, 74, 77, 80];
+let subsJam03Triggers = [4, 7, 14, 22, 25, 28, 33, 42, 48, 53, 59, 65, 71, 74, 77, 80];
 let subsJam03Toggle = false;
+
+// let jamTitle;
 
 var x = 0;
 var y = 0;
@@ -61,6 +64,8 @@ var angleDistortion = 0.0;
 var counter = 0;
 
 let coreoSteps;
+let stepsOut;
+let currentJam;
 
 let canvasRitual;
 let nombre;
@@ -74,6 +79,15 @@ let nombreString;
 let nacioString;
 let murioString;
 let textInputString;
+
+let angleText = 0.0;
+let inc;
+let sineLoop;
+
+
+
+
+
 
 let formButton;
 
@@ -119,6 +133,9 @@ function setup() {
   formButton = select("#form-button");
   formButton.mousePressed(replaceText);
 
+  // jamTitle = select("#jam-title");
+
+
   
 
 
@@ -158,8 +175,17 @@ function draw() {
     fadeOutSounds();   
     triggerSound(sounds[2]);  
   }
+  
+  if (jamOn) {
+    fill(250,10);
+    textSize(36);
+    text(currentJam, width/2, 150);
+  }
 
   if (jam01On) {
+    // jamTitle.html("1. LUZ");
+    currentJam = "1. LUZ";
+
     startSubsJam01();
     if (sounds[3].isLoaded() && sounds[3].isPlaying() == false) {
       currSub = "";
@@ -170,6 +196,10 @@ function draw() {
   }
 
   if (jam02On) {
+    currentJam = "2. CUERPA";
+    // jamTitle.html("2. CUERPA");
+
+
     startSubsJam02();
     if (sounds[4].isLoaded() && sounds[4].isPlaying() == false) {
       currSub = "";
@@ -180,6 +210,10 @@ function draw() {
   }
 
   if (jam03On) {
+    currentJam = "3. OFRENDA";
+    // jamTitle.html("3. OFRENDA");
+
+
     startSubsJam03();
     if (sounds[5].isLoaded() && sounds[5].isPlaying() == false) {
       currSub = "";
@@ -190,12 +224,27 @@ function draw() {
   }
   
   if (transOn) {
+    currentJam = "";
+
+    stepsOut = selectAll(".step");
+    for (let i = 0; i < stepsOut.length; i++) {
+      if (stepsOut[i].id() != "altar" && stepsOut[i].id() != "transicion") {
+        stepsOut[i].hide();
+      }
+    }
     clear();
     currSub = "sigue bajando...";
+
   }
 
 
   if (altarOn) {
+    for (let i = 0; i < stepsOut.length; i++) {
+      if (stepsOut[i].id() != "altar") {
+        stepsOut[i].remove();
+      }
+    }
+
 
     if (sounds[6].isLoaded() && sounds[6].isPlaying() == false) {
       currSub = "";
@@ -242,8 +291,8 @@ function fadeOutSounds() {
 }
 
 function triggerSound(currSound) {
-  currSound.setLoop(false); 
   currSound.play();
+  currSound.setLoop(false); 
   soundPlaying = currSound;
 }
 
@@ -569,13 +618,45 @@ function startSubsJam03() {
 
 function drawFormText() {
   let yearsString = `Vivió ${yearPetals} años en esta tierra...`;
-  console.log("drawing: ",nombreString, yearsString, textInputString);
-  fill(255);
-  textSize(32);
-  text(nombreString, width/2, height*0.70);
-  textSize(22);
-  text(yearsString, width/2, height*0.80);
-  text(textInputString, width/2, height*0.85);
+  // console.log("drawing: ",nombreString, yearsString, textInputString);
+  textAlign(CENTER,CENTER);
+
+  inc = TWO_PI / 25.0;
+  sineLoop = sin(angleText);
+  angleText = angleText + inc/3;
+  // console.log("sineLoop",sineLoop);
+  
+  // fill(255);
+  fill(map(sineLoop, -1,1, 150, 255));
+
+
+  if (nombreString && nombreString != "") {
+    textSize(42);
+    textAlign(CENTER,CENTER);
+    text(nombreString, width/2, map(sineLoop*0.5, -1,1, height*0.70, height*0.75));
+    // text(nombreString, width/2, height*0.65);
+    
+  }
+  textSize(28);
+  if (nombreString && nombreString != "") {
+    text(yearsString, width/2, map(sineLoop*0.3, -1,1, height*0.75, height*0.80));
+    // text(yearsString, width*0.80, height*0.80);
+  } else {
+    yearsString = `Vivió sus años en esta tierra...`;
+    // text(yearsString, width/2, height*0.70);
+    text(yearsString, width/2, map(sineLoop*0.3, -1,1, height*0.75, height*0.80));
+    // text(yearsString, width*0.80, height*0.80);
+  }
+
+
+
+  if (textInputString && textInputString != "") {
+    fill(map(sineLoop*0.3, -1,1, 150, 255));
+    textSize(24);
+    text(textInputString, width/2, map(sineLoop*0.2, -1,1, height*0.80, height*0.83));
+    // text(textInputString, width/2, height*0.75);
+    // text(textInputString, width*0.80, height*0.85);
+  }
 }
 
 
@@ -609,6 +690,15 @@ function mousePressed() {
 
 
 function replaceText() {
+
+
+  // stepsOut = selectAll(".step");
+  // for (let i = 0; i < stepsOut.length; i++) {
+  //   if (stepsOut[i].id() != "altar") {
+  //     stepsOut[i].remove();
+  //   }
+  // }
+
   // coreoSteps.hide();
   // console.log(coreoSteps);
   for (let i = 0; i < coreoSteps.length; i++) {
@@ -632,37 +722,44 @@ function replaceText() {
   console.log(murioString);
   console.log(textInputString);
 
-  yearPetals = int(murioString) - int(nacioString);
-  console.log(`Vivió ${yearPetals} años en esta tierra...`)
+  // if(typeof int(murioString) == 'number' && typeof int(nacioString) == 'number'){
+  if(int(murioString) > 0 && int(nacioString) > 0){
+    yearPetals = int(murioString) - int(nacioString);
+    console.log(`Vivió ${yearPetals} años en esta tierra...`)
+  } else {
+    yearPetals = "sus";
+    console.log(`vivió sus años en esta tierra...`)
+  }
+
 
   // return false;
 
 }
 
 
-function drawTextMousePath() {
-  console.log("drawing");
-  var d = dist(x, y, mouseX, mouseY);
-  textSize(fontSizeMin + d / 2);
-  var newLetter = letters.charAt(counter);
-  stepSize = textWidth(newLetter);
+// function drawTextMousePath() {
+//   console.log("drawing");
+//   var d = dist(x, y, mouseX, mouseY);
+//   textSize(fontSizeMin + d / 2);
+//   var newLetter = letters.charAt(counter);
+//   stepSize = textWidth(newLetter);
 
-  if (d > stepSize) {
-    var angle = atan2(mouseY - y, mouseX - x);
+//   if (d > stepSize) {
+//     var angle = atan2(mouseY - y, mouseX - x);
 
-    push();
-    translate(x, y);
-    rotate(angle + random(angleDistortion));
-    text(newLetter, 0, 0);
-    pop();
+//     push();
+//     translate(x, y);
+//     rotate(angle + random(angleDistortion));
+//     text(newLetter, 0, 0);
+//     pop();
 
-    counter++;
-    if (counter >= letters.length) counter = 0;
+//     counter++;
+//     if (counter >= letters.length) counter = 0;
 
-    x = x + cos(angle) * stepSize;
-    y = y + sin(angle) * stepSize;
-  }
-}
+//     x = x + cos(angle) * stepSize;
+//     y = y + sin(angle) * stepSize;
+//   }
+// }
 
 // function keyReleased() {
 //   if (key == 's' || key == 'S') saveCanvas(gd.timestamp(), 'png');

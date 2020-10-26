@@ -12,11 +12,6 @@ function initScene() {
   camera.position.y = 0;
   camera.position.z = 1500;    
 
-  // set camera orbit controls
-  // let orbit = new THREE.OrbitControls( camera, renderer.domElement );
-  // orbit.enableZoom = false;
-  // orbit.minDistance = 500;
-  // orbit.maxDistance = 2000;
 
   // set lights
   let light1 = new THREE.DirectionalLight(0xffffff, 1.5);
@@ -47,6 +42,14 @@ function initScene() {
   renderer.setSize( window.innerWidth, window.innerHeight );
   const sceneCont  = document.getElementById('sceneCont');
   sceneCont.appendChild( renderer.domElement );
+
+
+
+  // // set camera orbit controls
+  // let orbit =  new OrbitControls( camera, renderer.domElement );
+  // orbit.enableZoom = false;
+  // orbit.minDistance = 500;
+  // orbit.maxDistance = 2000;
 
   let poseNet;
 
@@ -172,7 +175,7 @@ function initScene() {
       // let particle = new THREE.Vector3(Math.random()*boundary, boundary/2, Math.random()*boundary);
       mouseGeom.vertices.push(particle);
   }  
-  for (let i = 0; i < 20000; i++) {
+  for (let i = 0; i <15000; i++) {
       // let particle = new THREE.Vector3(Math.random()*boundary, Math.random()*boundary, Math.random()*boundary+boundary/2);
       // let particle = new THREE.Vector3(Math.random()*boundary, Math.random()*boundary, Math.random()*boundary);
       // let particle = new THREE.Vector3(THREE.Math.randInt(-boundary, boundary),THREE.Math.randInt(-boundary*2, -boundary),THREE.Math.randInt(0, boundary));
@@ -204,7 +207,8 @@ function initScene() {
 
 
   // petals settings
-  let numPetals = 80;
+  // let numPetals = 80;
+  let numPetals;
   let petals = [];
   let petalsCont = new THREE.Object3D();
   let petalsAttractor;
@@ -214,7 +218,7 @@ function initScene() {
   }
   let petalGeom = new THREE.LatheGeometry( petalPoints );
   // create petal meshes
-  createPetals();
+  // createPetals();
   // let petalGeom = new THREE.BoxBufferGeometry(30,60,30);
   // let petalGeom = new THREE.SphereBufferGeometry(35,3,4);
 
@@ -378,6 +382,13 @@ function initScene() {
     }
 
     if (jamOn) {
+      createPetals();
+
+      for (let i = 0; i < attractors.length; i++) {
+        attractors[i].position.z = camera.position.z - 750;
+      }
+
+
       // if  (cloud.rotation.x < 1.5) {
       //   cloud.rotation.x += 0.05;
       // }
@@ -392,12 +403,17 @@ function initScene() {
         webcamAdded = true;
       }
       // console.log("jam trigger");
-      if (partsOn && pMaterial.opacity < 1) {
+      if (partsOn && pMaterial.opacity < 0.2) {
         pMaterial.opacity += 0.1;
       }
     }
 
     if (jam01On) {
+      if (camera.position.z > 800 ) {
+        camera.position.z -= 0.5;
+
+        // console.log("camera.position.z", camera.position.z)
+      }
 
       // let jam01Added = false;
       // if (!jam01Added) {
@@ -416,6 +432,10 @@ function initScene() {
     }
 
     if (jam02On) {
+      if (camera.position.z < 1500 ) {
+        camera.position.z += 7;
+        // console.log("camera.position.z", camera.position.z)
+      }
 
       // let jam02Added = false;
       // if (!jam02Added) {
@@ -434,6 +454,16 @@ function initScene() {
 
 
     if (jam03On) {
+      if (camera.position.z > 650 ) {
+        camera.position.z -= 3;
+        // camera.rotation.y -= 2;
+        // console.log("camera.position.z", camera.position.z)
+      } else if (camera.position.z > 450) {
+        camera.position.z -= 1;
+        // camera.rotation.y -= 2;
+        // console.log("camera.position.z", camera.position.z)
+      
+      }
 
       // let jam03Added = false;
       // if (!jam03Added) {
@@ -453,7 +483,14 @@ function initScene() {
 
 
     if (transOn) {
+      for (let i = 0; i < attractors.length; i++) {
+        attractors[i].position.z = camera.position.z - 750;
+      }
       attractToPetals();
+      if (camera.position.z < 1500 ) {
+        camera.position.z += 5;
+        // console.log("camera.position.z", camera.position.z)
+      }
 
       // let jam04Added = false;
       // if (!jam04Added) {
@@ -471,6 +508,13 @@ function initScene() {
     }
 
     if (altarOn) {
+      for (let i = 0; i < attractors.length; i++) {
+        attractors[i].position.z = camera.position.z - 750;
+      }
+      if (camera.position.z < 1500 ) {
+        camera.position.z += 15;
+        // console.log("camera.position.z", camera.position.z)
+      }
       // planeMaterial.opacity = 0;
       // // jamPlane.visible = false;
       // // jamPlane.remove();
@@ -658,8 +702,8 @@ function initScene() {
           this.velocities[i].y *= -1;
         }
 
-        if (this.vertices[i].z > boundary*1.2){
-          this.vertices[i].z = boundary*1.2;
+        if (this.vertices[i].z > boundary*1.15){
+          this.vertices[i].z = boundary*1.15;
           this.velocities[i].z *= -1;
         }
         else if (this.vertices[i].z < -boundary/2){
@@ -689,6 +733,14 @@ function initScene() {
   
   // define create and animate petals functions
   function createPetals() {
+    // get petals number from global variable
+    // numPetals = yearPetals;
+    // if(typeof parseInt(yearPetals) == 'number') {
+    if(parseInt(yearPetals) >0) {
+      numPetals = THREE.Math.clamp( ceil(THREE.Math.mapLinear( yearPetals, 0, 100, 1, 100 )), 1, 100 );
+    } else {
+      numPetals = 50;
+    }
     // draw petals
     let petalMaterial =  new THREE.MeshPhongMaterial( { shininess: 15, flatShading: false, transparent: true, opacity: 0, color: colors[0], wireframe: false} );
     for (let i = 0; i < numPetals; i++) {    
@@ -724,12 +776,17 @@ function initScene() {
       // petals[i].rotation.y += petals[i].speedY*1.2;
       // petals[i].rotation.z += petals[i].speedZ*1.2;
       
+      petals[i].rotation.z += petals[i].speedZ*THREE.Math.randInt(0.1, 10);
+
+      
       if ( petals[i].material.opacity < 0.70 ) {
-        petals[i].material.opacity += 0.0005;
+        petals[i].material.opacity += 0.0055;
       }
 
     }
-    petalsCont.rotation.y += 0.002*6;
+    // scene.rotation.y -= 0.05;
+    // camera.rotation.y -= 0.05;
+    petalsCont.rotation.y += 0.005;
   }
 
   function attractToPetals() {
