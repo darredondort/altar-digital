@@ -75,6 +75,8 @@ let textInput;
 let yearPetals;
 let form;
 
+let hiddenFirst;
+
 let nombreString;
 let nacioString;
 let murioString;
@@ -701,6 +703,16 @@ function mousePressed() {
 function replaceText() {
 
 
+  hiddenFirst = selectAll(".hidden");
+  for (let i = 0; i < hiddenFirst.length; i++) {
+    // if (stepsOut[i].id() != "altar") {
+      hiddenFirst[i].removeClass("hidden");
+      // hiddenFirst[i].show()
+      hiddenFirst[i].addClass("step");
+    // }
+  }
+  window.location.href='#jam01';
+
   // stepsOut = selectAll(".step");
   // for (let i = 0; i < stepsOut.length; i++) {
   //   if (stepsOut[i].id() != "altar") {
@@ -714,7 +726,7 @@ function replaceText() {
     // coreoSteps.removeClass("is-active");
     // coreoSteps.addClass("faded");
   coreoSteps[i].hide();
-}
+  }
   form.removeClass("is-active");
   form.addClass("faded");
 

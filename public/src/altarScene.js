@@ -208,6 +208,7 @@ function initScene() {
 
   // petals settings
   // let numPetals = 80;
+  let petalsCreated = false;
   let numPetals;
   let petals = [];
   let petalsCont = new THREE.Object3D();
@@ -382,7 +383,8 @@ function initScene() {
     }
 
     if (jamOn) {
-      createPetals();
+
+
 
       for (let i = 0; i < attractors.length; i++) {
         attractors[i].position.z = camera.position.z - 750;
@@ -454,6 +456,11 @@ function initScene() {
 
 
     if (jam03On) {
+      if (!petalsCreated) {
+        console.log("petalsCreated")
+        createPetals();
+        petalsCreated = true;
+      }
       if (camera.position.z > 650 ) {
         camera.position.z -= 3;
         // camera.rotation.y -= 2;
@@ -736,9 +743,13 @@ function initScene() {
     // get petals number from global variable
     // numPetals = yearPetals;
     // if(typeof parseInt(yearPetals) == 'number') {
-    if(parseInt(yearPetals) >0) {
-      numPetals = THREE.Math.clamp( ceil(THREE.Math.mapLinear( yearPetals, 0, 100, 1, 100 )), 1, 100 );
+    if(Number(yearPetals) > 0 && Number(yearPetals) < 100) {
+      console.log("yearPetals",yearPetals)
+      console.log("mapped years to petals")
+      numPetals = yearPetals;
+      // numPetals = parseInt(THREE.Math.mapLinear( yearPetals, 1, 100, 1, 100 ));
     } else {
+      console.log("mapped default petals")
       numPetals = 50;
     }
     // draw petals

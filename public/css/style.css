@@ -120,7 +120,6 @@ h4{
 
 
 
-
 .main-col {
   display: flex;
   justify-content: space-between;
@@ -569,4 +568,9 @@ input[type="number"]::-webkit-inner-spin-button {
   position: absolute !important;
   top: -9999px !important;
   left: -9999px !important;
+}
+
+
+.hidden {
+  display: none !important;
 }
