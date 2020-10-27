@@ -1,37 +1,4 @@
-// P_2_3_3_01
-//
-// Generative Gestaltung – Creative Coding im Web
-// ISBN: 978-3-87439-902-9, First Edition, Hermann Schmidt, Mainz, 2018
-// Benedikt Groß, Hartmut Bohnacker, Julia Laub, Claudius Lazzeroni
-// with contributions by Joey Lee and Niels Poldervaart
-// Copyright 2018
-//
-// http://www.generative-gestaltung.de
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
-/**
- * draw tool. shows how to draw with dynamic elements.
- *
- * MOUSE
- * drag                : draw with text
- *
- * KEYS
- * del, backspace      : clear screen
- * arrow up            : angle distortion +
- * arrow down          : angle distortion -
- * s                   : save png
- */
 'use strict';
-
-
 
 let sounds = [];
 let soundCount = 7;
@@ -51,24 +18,9 @@ let subsJam03 = ["Lanza los brazos hacia arriba","Creatura, la vida es tuya, muy
 let subsJam03Triggers = [4, 7, 14, 22, 25, 28, 33, 42, 48, 53, 59, 65, 71, 74, 77, 80];
 let subsJam03Toggle = false;
 
-// let jamTitle;
-
-var x = 0;
-var y = 0;
-var stepSize = 5.0;
-
-var letters = '';
-var fontSizeMin = 3;
-var angleDistortion = 0.0;
-
-var counter = 0;
-
 let coreoSteps;
 let stepsOut;
 let currentJam = "";
-
-// let body;
-// let jam01Cont;
 
 let canvasRitual;
 let nombre;
@@ -100,7 +52,6 @@ let formButton;
 
 function preload() {
   for (let i = 0; i < soundCount; i++){
-    // introSound = new p5.SoundFile('audio/1_IntroTextoLoop_MIX1_96kb.mp3', initTriggers, errorSound, loadingSound);
     sounds[i] = loadSound(`audio/${String(i)}_sound_altardigital.mp3`, initTriggers(i), errorSound, loadingSound);
   }
 }
@@ -111,28 +62,11 @@ function setup() {
   background(255,0);
   cursor(CROSS);
 
-  // portadaIntroSound = loadSound('audio/1_IntroTextoLoop_MIX1_96kb.mp3', initTriggers());
-  // introSound = new p5.SoundFile('audio/1_IntroTextoLoop_MIX1_96kb.mp3', initTriggers, errorSound, loadingSound);
-  // for (let i = 0; i < soundCount; i++){
-  //   // introSound = new p5.SoundFile('audio/1_IntroTextoLoop_MIX1_96kb.mp3', initTriggers, errorSound, loadingSound);
-  //   sounds[i] = loadSound(`audio/${String(i)}_sound_altardigital.mp3`, initTriggers(i), errorSound, loadingSound);
-  // }
-
-
-
-
-
-  x = mouseX;
-  y = mouseY;
-
   textFont('Cormorant Garamond');
   textAlign(LEFT);
   fill(255);
 
   coreoSteps = selectAll(".coreo-step");
-
-  // jam01Cont = select("#jam01");
-  // body = select("#body");
   form = select("#form");
   formCont = select("#form-cont");
 
@@ -142,13 +76,6 @@ function setup() {
   textInput = select("#text-input");
   formButton = select("#form-button");
   formButton.mousePressed(replaceText);
-
-  // jamTitle = select("#jam-title");
-
-
-  
-
-
 }
 
 function mouseWheel() {
@@ -159,9 +86,6 @@ function mouseWheel() {
 }
 
 function draw() {
-
-
-
   // if (soundPlaying) {
   //   // console.log(round(soundPlaying.currentTime(),2));
   // }
@@ -273,7 +197,6 @@ function draw() {
       }
     }
 
-
     if (sounds[6].isLoaded() && sounds[6].isPlaying() == false) {
       currSub = "";
       clear();
@@ -284,17 +207,6 @@ function draw() {
     drawFormText();
 
   }
-  
-
-
-
-
-
-
-
-  // if (altarOn && mouseIsPressed && mouseButton == LEFT) {
-  //   drawTextMousePath();
-  // }
 }
 
 
@@ -722,10 +634,6 @@ function mousePressed() {
 function replaceText() {
   form.removeClass("is-active");
   form.addClass("faded");
-
-  // let jamCont = document.getElementById("content"); 
-  // jamCont.scrollIntoView();
-
   // coreoSteps.hide();
   // console.log(coreoSteps);
   for (let i = 0; i < coreoSteps.length; i++) {
@@ -749,20 +657,6 @@ function replaceText() {
   }
   window.location.href='#jam';
 
-
-  // stepsOut = selectAll(".step");
-  // for (let i = 0; i < stepsOut.length; i++) {
-  //   if (stepsOut[i].id() != "altar") {
-  //     stepsOut[i].remove();
-  //   }
-  // }
-
-
-
-
-  letters = textInput.value();
-  console.log(letters);
-
   nombreString = nombre.value();
   nacioString = nacio.value();
   murioString = murio.value();
@@ -781,47 +675,10 @@ function replaceText() {
     yearPetals = "sus";
     console.log(`vivió sus años en esta tierra...`)
   }
-
-
-  // return false;
-
 }
 
 
-// function drawTextMousePath() {
-//   console.log("drawing");
-//   var d = dist(x, y, mouseX, mouseY);
-//   textSize(fontSizeMin + d / 2);
-//   var newLetter = letters.charAt(counter);
-//   stepSize = textWidth(newLetter);
 
-//   if (d > stepSize) {
-//     var angle = atan2(mouseY - y, mouseX - x);
-
-//     push();
-//     translate(x, y);
-//     rotate(angle + random(angleDistortion));
-//     text(newLetter, 0, 0);
-//     pop();
-
-//     counter++;
-//     if (counter >= letters.length) counter = 0;
-
-//     x = x + cos(angle) * stepSize;
-//     y = y + sin(angle) * stepSize;
-//   }
-// }
-
-// function keyReleased() {
-//   if (key == 's' || key == 'S') saveCanvas(gd.timestamp(), 'png');
-//   if (keyCode == DELETE || keyCode == BACKSPACE) background(255);
-// }
-
-// function keyPressed() {
-//   // angleDistortion ctrls arrowkeys up/down
-//   if (keyCode == UP_ARROW) angleDistortion += 0.1;
-//   if (keyCode == DOWN_ARROW) angleDistortion -= 0.1;
-// }
 
 
 function windowResized() {

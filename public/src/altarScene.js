@@ -507,11 +507,19 @@ function initScene() {
 
 
     if (transOn) {
-      for (let i = 0; i < attractors.length; i++) {
-        attractors[i].position.z = camera.position.z - 750;
-        attractors[i].mass = 1;
-        console.log("body attractors off");
+
+      if (poseNet) {
+        // poseNet.minConfidence = 1;
+        vidCor.pause();
+        poseNet.video = vidCor;
+        // console.log(poseNet)
+        for (let i = 0; i < attractors.length; i++) {
+          attractors[i].position.z = camera.position.z - 750;
+          attractors[i].mass = 1;
+          // console.log("body attractors off");
+        }
       }
+
       if (camera.position.z < 1500 ) {
         camera.position.z += 3;
         // console.log("camera.position.z", camera.position.z)
@@ -537,12 +545,7 @@ function initScene() {
       // poseNet.removeListener('pose', function() {
       //   console.log("posenet removed");
       // });
-      if (poseNet) {
-        // poseNet.minConfidence = 1;
-        vidCor.pause();
-        poseNet.video = vidCor;
-        // console.log(poseNet)
-      }
+
  
 
       for (let i = 0; i < attractors.length; i++) {
@@ -818,7 +821,7 @@ function initScene() {
     petalsCont.position.x = 0;
     petalsCont.position.y = 0;
     // petalsAttractor = new Attractor(boundary, boundary/1.1, boundary/1.1, 60, 1000);
-    petalsAttractor = new Attractor(0, 0, 1350, 25, 1000);
+    petalsAttractor = new Attractor(0, 0, 1350, 200, 20);
     petalsAttractor.initialise();
   }
   function animatePetals() {
