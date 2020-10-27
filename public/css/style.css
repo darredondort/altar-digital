@@ -582,3 +582,9 @@ input[type="number"]::-webkit-inner-spin-button {
 .hidden {
   display: none !important;
 }
+
+
+#jam {
+  width: 100vh;
+  height: 50vh;
+}

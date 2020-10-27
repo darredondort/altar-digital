@@ -47,7 +47,7 @@ let subsJam02 = ["Muéstrame tu mano creatura,","alúmbrala con la luz","Observa
 let subsJam02Triggers = [5, 8, 15, 18, 24, 28, 31, 34, 41, 47, 50, 56, 61, 68];
 let subsJam02Toggle = false;
 
-let subsJam03 = ["Lanza los brazos hacia arriba","Creatura, la vida es tuya, muy tuya en este momento.","Siéntela Pulsando desde el corazón hasta la punta de tus dedos.","Inhala,","Siente el aire entre las costillas","la carne entre hueso y hueso,","Exhala,","Baja los brazos y sostenlos con ternura","¿A quién quieres recordar hoy?","Elles, nos abrazan en las noches más obscuras,","Susurran sabiduría","En tu sangre esperan por ti.","Ya están aquí...","...en tu cuerpo...","...y en tu memoria"];
+let subsJam03 = ["Lanza los brazos hacia arriba","Creatura, la vida es tuya, muy tuya en este momento.","Siéntela pulsando desde el corazón hasta la punta de tus dedos.","Inhala,","Siente el aire entre las costillas","la carne entre hueso y hueso,","Exhala,","Baja los brazos y sostenlos con ternura","¿A quién quieres recordar hoy?","Elles, nos abrazan en las noches más obscuras,","Susurran sabiduría","En tu sangre esperan por ti.","Ya están aquí...","...en tu cuerpo...","...y en tu memoria"];
 let subsJam03Triggers = [4, 7, 14, 22, 25, 28, 33, 42, 48, 53, 59, 65, 71, 74, 77, 80];
 let subsJam03Toggle = false;
 
@@ -67,6 +67,9 @@ let coreoSteps;
 let stepsOut;
 let currentJam = "";
 
+// let body;
+// let jam01Cont;
+
 let canvasRitual;
 let nombre;
 let nacio;
@@ -74,6 +77,7 @@ let murio;
 let textInput;
 let yearPetals;
 let form;
+let formCont;
 
 let hiddenFirst;
 
@@ -87,6 +91,7 @@ let inc;
 let sineLoop;
 
 
+let audioStarted = false;
 
 
 
@@ -126,7 +131,10 @@ function setup() {
 
   coreoSteps = selectAll(".coreo-step");
 
+  // jam01Cont = select("#jam01");
+  // body = select("#body");
   form = select("#form");
+  formCont = select("#form-cont");
 
   nombre = select("#nombre");
   nacio = select("#nacio");
@@ -143,7 +151,16 @@ function setup() {
 
 }
 
+function mouseWheel() {
+  if (!audioStarted) {
+    userStartAudio();
+    audioStarted = true;
+  }
+}
+
 function draw() {
+
+
 
   // if (soundPlaying) {
   //   // console.log(round(soundPlaying.currentTime(),2));
@@ -304,7 +321,9 @@ function fadeOutSounds() {
 function triggerSound(currSound) {
   currSound.play();
   currSound.setLoop(false); 
-  soundPlaying = currSound;
+  if (audioStarted) {
+    soundPlaying = currSound;
+  }
 }
 
 
@@ -701,6 +720,21 @@ function mousePressed() {
 
 
 function replaceText() {
+  form.removeClass("is-active");
+  form.addClass("faded");
+
+  // let jamCont = document.getElementById("content"); 
+  // jamCont.scrollIntoView();
+
+  // coreoSteps.hide();
+  // console.log(coreoSteps);
+  for (let i = 0; i < coreoSteps.length; i++) {
+    // coreoSteps.removeClass("is-active");
+    // coreoSteps[i].addClass("hide");
+    coreoSteps[i].hide();
+    // coreoSteps[i].removeClass("step");
+    // coreoSteps[i].parent(body);
+  }
 
 
   hiddenFirst = selectAll(".hidden");
@@ -708,10 +742,13 @@ function replaceText() {
     // if (stepsOut[i].id() != "altar") {
       hiddenFirst[i].removeClass("hidden");
       // hiddenFirst[i].show()
-      hiddenFirst[i].addClass("step");
+      if (hiddenFirst[i] != "jam") {
+        hiddenFirst[i].addClass("step");
+      }
     // }
   }
-  window.location.href='#jam01';
+  window.location.href='#jam';
+
 
   // stepsOut = selectAll(".step");
   // for (let i = 0; i < stepsOut.length; i++) {
@@ -720,15 +757,8 @@ function replaceText() {
   //   }
   // }
 
-  // coreoSteps.hide();
-  // console.log(coreoSteps);
-  for (let i = 0; i < coreoSteps.length; i++) {
-    // coreoSteps.removeClass("is-active");
-    // coreoSteps.addClass("faded");
-  coreoSteps[i].hide();
-  }
-  form.removeClass("is-active");
-  form.addClass("faded");
+
+
 
   letters = textInput.value();
   console.log(letters);

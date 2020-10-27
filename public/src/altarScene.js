@@ -126,7 +126,7 @@ function initScene() {
 
   // initialise mouse attractors
   let mouse = new THREE.Vector2();
-  let mouseAttractor = new Attractor(Math.random()*boundary, boundary, boundary/2, 50, 25);
+  let mouseAttractor = new Attractor(Math.random()*boundary, boundary, boundary/1.5, 100, 25);
   // let mouseAttractorOp = new Attractor(Math.random()*boundary, boundary, 1000, 50, 15);
   mouseAttractor.initialise();
   // mouseAttractorOp.initialise();
@@ -149,7 +149,8 @@ function initScene() {
   }
   document.addEventListener( 'mousemove', onDocumentMouseMove );
 
-  loadPosenet();
+  let posenetLoaded = false;
+  // loadPosenet();
 
 
   // create particle sprites (geometry + texture + pMaterial + vectors)
@@ -202,7 +203,7 @@ function initScene() {
   // let windRight = new THREE.Vector3(0.01,0.0,0.0);
   let windIn = new THREE.Vector3(0,0.0,-0.05);
   let windOut = new THREE.Vector3(0,0.0,0.08);
-  let gravityUp = new THREE.Vector3(0.0,-0.01,0);
+  let gravityUp = new THREE.Vector3(0.0,-0.05,0);
   let gravityDown = new THREE.Vector3(0.0,0.05,0);
 
 
@@ -230,13 +231,20 @@ function initScene() {
     const options = {
       // flipVertical: true,
       flipHorizontal: true,
-      minConfidence: 0.3
+      minConfidence: 0.3,
+      detectionType: "single",
+      maxPoseDetections: 1
+      // scoreThreshold: 0.5
     };
     // poseNet = ml5.poseNet(vidCor, options, modelReady);
     poseNet = ml5.poseNet(videoPos, options, modelReady);
 
     function modelReady() {
       console.log("posenet ready!");
+      console.log(poseNet)
+      poseNet._maxListeners = 1;
+
+
       let posesAdded = false;
 
       if (!posesAdded) {
@@ -378,17 +386,26 @@ function initScene() {
 
     if (formOn) {
       // loadPosenet();
-      mouseAttractOff();
+      // mouseAttractOff();
       // formOn = false;
     }
 
     if (jamOn) {
 
+      // mouseAttractOff();
+      if (!posenetLoaded) {
+        loadPosenet();
+        posenetLoaded = true;
+      }
 
 
       for (let i = 0; i < attractors.length; i++) {
         attractors[i].position.z = camera.position.z - 750;
       }
+
+
+      mouseAttractor.position.z = camera.position.z - 780;
+
 
 
       // if  (cloud.rotation.x < 1.5) {
@@ -461,11 +478,11 @@ function initScene() {
         createPetals();
         petalsCreated = true;
       }
-      if (camera.position.z > 650 ) {
-        camera.position.z -= 3;
+      if (camera.position.z > 1100 ) {
+        camera.position.z -= 2;
         // camera.rotation.y -= 2;
         // console.log("camera.position.z", camera.position.z)
-      } else if (camera.position.z > 450) {
+      } else if (camera.position.z > 900) {
         camera.position.z -= 1;
         // camera.rotation.y -= 2;
         // console.log("camera.position.z", camera.position.z)
@@ -492,10 +509,11 @@ function initScene() {
     if (transOn) {
       for (let i = 0; i < attractors.length; i++) {
         attractors[i].position.z = camera.position.z - 750;
+        attractors[i].mass = 1;
+        console.log("body attractors off");
       }
-      attractToPetals();
       if (camera.position.z < 1500 ) {
-        camera.position.z += 5;
+        camera.position.z += 3;
         // console.log("camera.position.z", camera.position.z)
       }
 
@@ -515,11 +533,24 @@ function initScene() {
     }
 
     if (altarOn) {
+
+      // poseNet.removeListener('pose', function() {
+      //   console.log("posenet removed");
+      // });
+      if (poseNet) {
+        // poseNet.minConfidence = 1;
+        vidCor.pause();
+        poseNet.video = vidCor;
+        // console.log(poseNet)
+      }
+ 
+
       for (let i = 0; i < attractors.length; i++) {
         attractors[i].position.z = camera.position.z - 750;
+        attractors[i].position.mass = 1;
       }
       if (camera.position.z < 1500 ) {
-        camera.position.z += 15;
+        camera.position.z += 4;
         // console.log("camera.position.z", camera.position.z)
       }
       // planeMaterial.opacity = 0;
@@ -756,10 +787,20 @@ function initScene() {
     let petalMaterial =  new THREE.MeshPhongMaterial( { shininess: 15, flatShading: false, transparent: true, opacity: 0, color: colors[0], wireframe: false} );
     for (let i = 0; i < numPetals; i++) {    
       let petal = new THREE.Mesh(petalGeom, petalMaterial);
+      // petal.rotation.x = 10 * Math.sin(i);
+      // // petal.rotation.y = 10 * Math.cos(i);    
+      // petal.rotation.z = 0.1 * Math.cos(i);
+
       petal.rotation.x = 10 * Math.sin(i);
       // petal.rotation.y = 10 * Math.cos(i);    
       petal.rotation.z = 10 * Math.cos(i);
       
+      // petal.position.x = 20 * Math.sin(i);
+      // petal.scale.set( 2 * Math.sin(i), 2 * Math.sin(i), 2 * Math.sin(i) );
+
+      // petal.geometry.scale(100 * Math.cos(i),10 * Math.cos(i),10 * Math.cos(i));
+      // petal.scale(2,2,2);
+
       petal.speedX = 0;
       petal.speedY = 0;
       petal.speedZ = 0.001;    
@@ -777,7 +818,7 @@ function initScene() {
     petalsCont.position.x = 0;
     petalsCont.position.y = 0;
     // petalsAttractor = new Attractor(boundary, boundary/1.1, boundary/1.1, 60, 1000);
-    petalsAttractor = new Attractor(0, 0, 1350, 25, 800);
+    petalsAttractor = new Attractor(0, 0, 1350, 25, 1000);
     petalsAttractor.initialise();
   }
   function animatePetals() {
