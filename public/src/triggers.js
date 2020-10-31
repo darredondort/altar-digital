@@ -127,7 +127,7 @@ function draw() {
 
   if (jam01On) {
     // jamTitle.html("1. LUZ");
-    currentJam = "1. LUZ";
+    currentJam = "I. LUZ";
 
     startSubsJam01();
     if (sounds[3].isLoaded() && sounds[3].isPlaying() == false) {
@@ -142,7 +142,7 @@ function draw() {
   }
 
   if (jam02On) {
-    currentJam = "2. CUERPA";
+    currentJam = "II. CUERPA";
     // jamTitle.html("2. CUERPA");
 
 
@@ -159,7 +159,7 @@ function draw() {
   }
 
   if (jam03On) {
-    currentJam = "3. OFRENDA";
+    currentJam = "III. OFRENDA";
     // jamTitle.html("3. OFRENDA");
 
 

@@ -14,11 +14,13 @@ function initScene() {
 
 
   // set lights
+  // let light1 = new THREE.DirectionalLight(0x12BAB6, 1.5);
   let light1 = new THREE.DirectionalLight(0xffffff, 1.5);
   light1.position.y = 10;
   scene.add(light1);
 
   let light2 = new THREE.DirectionalLight(0xffffff, 0.5);
+  // let light2 = new THREE.DirectionalLight(0x12BAB6, 0.5);
   light2.position.set(-10,-10,10);
   scene.add(light2); 
   
@@ -691,8 +693,8 @@ function initScene() {
 
   function Cloud(cloudGroup) {
     this.vertices = cloudGroup.geometry.vertices;
-    this.max = new THREE.Vector3(10,10,10);
-    this.min = new THREE.Vector3(-10,-10,-10);
+    this.max = new THREE.Vector3(5,5,5);
+    this.min = new THREE.Vector3(-5,-5,-5);
     this.velocities = [];
     this.accelerations = [];
     this.mass = 20;
