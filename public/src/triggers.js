@@ -295,7 +295,7 @@ function draw() {
     // drawFormText();
     let footer = select("#footer");
     if (footerOpacity < 0.6) {
-      footerOpacity += 0.004;
+      footerOpacity += 0.008;
     }
     footer.style("opacity", footerOpacity);
 
