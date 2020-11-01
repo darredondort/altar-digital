@@ -19,12 +19,6 @@ let jam03On;
 
 let currStep;
 
-
-// if ( nombre.value && nacio.value && murio.value ) {
-//   button.disabled = false;
-//   console.log(nombre.value, nacio.value, murio.value)
-// } 
-
 // initialize the scrollama
 let scroller = scrollama();
 
@@ -32,13 +26,6 @@ let scroller = scrollama();
 function handleResize() {
   let stepH = Math.floor(window.innerHeight * 0.75);
   step.style("height", stepH + "px");
-
-//  let figureHeight = window.innerHeight / 2;
-//  let figureMarginTop = (window.innerHeight - figureHeight) / 2;
-//  figure
-//    .style("height", figureHeight + "px")
-//    .style("top", figureMarginTop + "px");
-
   scroller.resize();
 }
 
@@ -55,7 +42,7 @@ function handleResize() {
       introOn = true;
       coreoOn = false;
       formOn = false;
-      console.log("introOn");
+      // console.log("introOn");
      }
   
   
@@ -73,13 +60,13 @@ function handleResize() {
       formOn = false;
       partsOn = true;
       jamOn = false;
-      console.log("coreoOn");
-      console.log(coreoOn);
+      // console.log("coreoOn");
+      // console.log(coreoOn);
       jam01On = false;
       jam02On = false;
       jam03On = false;
       
-      console.log("coreoOn");
+      // console.log("coreoOn");
      }
     
      if (response.index == 4) {
@@ -88,8 +75,8 @@ function handleResize() {
       formOn = true;
       partsOn = false;
       jamOn = false;
-      console.log("formOn");
-      console.log(formOn);
+      // console.log("formOn");
+      // console.log(formOn);
       jam01On = false;
       jam02On = false;
       jam03On = false;
@@ -104,11 +91,11 @@ function handleResize() {
     formOn = false;
     partsOn = true;
     jamOn = true;
-    console.log("jamOn")
+    // console.log("jamOn")
     jam01On = true;
     jam02On = false;
     jam03On = false;
-    console.log("jam01On")
+    // console.log("jam01On")
   }
   if (response.index === 6 ) {
     introOn = false;
@@ -116,11 +103,11 @@ function handleResize() {
     formOn = false;
     partsOn = true;
     jamOn = true;
-    console.log("jamOn")
+    // console.log("jamOn")
     jam01On = false;
     jam02On = true;
     jam03On = false;
-    console.log("jam02On")
+    // console.log("jam02On")
   }
   if (response.index === 7 ) {
     introOn = false;
@@ -128,11 +115,11 @@ function handleResize() {
     formOn = false;
     partsOn = true;
     jamOn = true;
-    console.log("jamOn")
+    // console.log("jamOn")
     jam01On = false;
     jam02On = false;
     jam03On = true;
-    console.log("jam03On")
+    // console.log("jam03On")
   }
 
 
@@ -146,7 +133,7 @@ function handleResize() {
 
       transOn = true;
       partsOn = true;
-      console.log("transOn")
+      // console.log("transOn")
   }
 
   if (response.index === 9 ) {
@@ -156,7 +143,7 @@ function handleResize() {
       formOn = false;
       altarOn = true;
       partsOn = true;
-      console.log("petalsOn")
+      // console.log("petalsOn")
   }
 
   if (response.direction == "down") {

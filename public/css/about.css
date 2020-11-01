@@ -5,24 +5,20 @@
  } 
 
 body {
-
-background-color: black;
-font-family: 'Cormorant Garamond', serif;
-font-size: 14px ;
-
-  letter-spacing: 0.1em;
-  color: #ffffff;
-  text-align: center;
-  width: 100vw;
-  height: 100vh;
-  margin: 0px;
-  background-image: url("../img/PORTADA.png");
-  background-attachment: fixed; 
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-
-
+    background-color: black;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    color: #ffffff;
+    text-align: center;
+    width: 100vw;
+    height: 100vh;
+    margin: 0px;
+    background-image: url("../img/PORTADA.png");
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 
@@ -30,7 +26,6 @@ font-size: 14px ;
     width: 100vw;
     height: 100vh;
     display: flex;
-
 }
 
 .row {
@@ -39,26 +34,20 @@ font-size: 14px ;
     display: flex;
     display: flex;
     align-items: center;
-    justify-content: center;
-    
+    justify-content: center; 
 }
 
 
 .col{
     width: 50%;
     height: 50%;
-
 }
 
-.col p{
-
+.col p {
     margin: 0;
-
 }
 
 a:-webkit-any-link {
     text-decoration: none;
     font-style:italic;
-  
   }
-

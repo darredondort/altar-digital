@@ -104,7 +104,7 @@ function setup() {
 
 function mouseWheel() {
       // background(0);
-      console.log("moving")
+      // console.log("moving")
       // scrollToggle();
       // background(0,200);
 
@@ -178,6 +178,8 @@ function draw() {
     // jamTitle.html("1. LUZ");
     scrollNow = false;
     currentJam = "I. LUZ";
+    let vidCorSel = select("#vidCor");
+    vidCorSel.hide();
 
     // if (!scrollNow) {
     //   startSubsJam01();
@@ -327,7 +329,7 @@ function draw() {
       //   clear();
       // }
       setTimeout(function() {
-        console.log("keep scrolling")
+        // console.log("keep scrolling")
         scrollNow = true;
         scrollDown();
       }, 5000);
@@ -442,35 +444,35 @@ function startSubsJam01() {
         subsJam01Toggle = true;
       }
       currSub = subsJam01[0];
-      console.log(subsJam01[0]);
+      // console.log(subsJam01[0]);
     } else if (soundPlaying.currentTime()>subsJam01Triggers[1] && soundPlaying.currentTime()<subsJam01Triggers[2]) {
       if (subsJam01Toggle) {
         clear();
         subsJam01Toggle = false;
       }
       currSub = subsJam01[1];
-      console.log(subsJam01[1]);
+      // console.log(subsJam01[1]);
     } else if (soundPlaying.currentTime()>subsJam01Triggers[2] && soundPlaying.currentTime()<subsJam01Triggers[3]) {
       if (!subsJam01Toggle) {
         clear();
         subsJam01Toggle = true;
       }
       currSub = subsJam01[2];
-      console.log(subsJam01[2]);
+      // console.log(subsJam01[2]);
     } else if (soundPlaying.currentTime()>subsJam01Triggers[3] && soundPlaying.currentTime()<subsJam01Triggers[4]) {
       if (subsJam01Toggle) {
         clear();
         subsJam01Toggle = false;
       }
       currSub = subsJam01[3];
-      console.log(subsJam01[3]);
+      // console.log(subsJam01[3]);
     } else if (soundPlaying.currentTime()>subsJam01Triggers[4] && soundPlaying.currentTime()<subsJam01Triggers[5]) {
       if (!subsJam01Toggle) {
         clear();
         subsJam01Toggle = true;
       }
       currSub = subsJam01[4];
-      console.log(subsJam01[4]);
+      // console.log(subsJam01[4]);
     } else if (soundPlaying.currentTime()>subsJam01Triggers[5]) {
       if (subsJam01Toggle) {
         clear();
@@ -499,35 +501,35 @@ function startSubsJam02() {
         subsJam02Toggle = true;
       }
       currSub = subsJam02[0];
-      console.log(subsJam02[0]);
+      // console.log(subsJam02[0]);
     } else if (soundPlaying.currentTime()>subsJam02Triggers[1] && soundPlaying.currentTime()<subsJam02Triggers[2]) {
       if (subsJam02Toggle) {
         clear();
         subsJam02Toggle = false;
       }
       currSub = subsJam02[1];
-      console.log(subsJam02[1]);
+      // console.log(subsJam02[1]);
     } else if (soundPlaying.currentTime()>subsJam02Triggers[2] && soundPlaying.currentTime()<subsJam02Triggers[3]) {
       if (!subsJam02Toggle) {
         clear();
         subsJam02Toggle = true;
       }
       currSub = subsJam02[2];
-      console.log(subsJam02[2]);
+      // console.log(subsJam02[2]);
     } else if (soundPlaying.currentTime()>subsJam02Triggers[3] && soundPlaying.currentTime()<subsJam02Triggers[4]) {
       if (subsJam02Toggle) {
         clear();
         subsJam02Toggle = false;
       }
       currSub = subsJam02[3];
-      console.log(subsJam02[3]);
+      // console.log(subsJam02[3]);
     } else if (soundPlaying.currentTime()>subsJam02Triggers[4] && soundPlaying.currentTime()<subsJam02Triggers[5]) {
       if (!subsJam02Toggle) {
         clear();
         subsJam02Toggle = true;
       }
       currSub = subsJam02[4];
-      console.log(subsJam02[4]);
+      // console.log(subsJam02[4]);
     } 
 
     else if (soundPlaying.currentTime()>subsJam02Triggers[5] && soundPlaying.currentTime()<subsJam02Triggers[6]) {
@@ -536,14 +538,14 @@ function startSubsJam02() {
         subsJam02Toggle = false;
       }
       currSub = subsJam02[5];
-      console.log(subsJam02[5]);
+      // console.log(subsJam02[5]);
     } else if (soundPlaying.currentTime()>subsJam02Triggers[6] && soundPlaying.currentTime()<subsJam02Triggers[7]) {
       if (!subsJam02Toggle) {
         clear();
         subsJam02Toggle = true;
       }
       currSub = subsJam02[6];
-      console.log(subsJam02[6]);
+      // console.log(subsJam02[6]);
     } 
 
 
@@ -553,14 +555,14 @@ function startSubsJam02() {
         subsJam02Toggle = false;
       }
       currSub = subsJam02[7];
-      console.log(subsJam02[7]);
+      // console.log(subsJam02[7]);
     } else if (soundPlaying.currentTime()>subsJam02Triggers[8] && soundPlaying.currentTime()<subsJam02Triggers[9]) {
       if (!subsJam02Toggle) {
         clear();
         subsJam02Toggle = true;
       }
       currSub = subsJam02[8];
-      console.log(subsJam02[8]);
+      // console.log(subsJam02[8]);
     } 
 
 
@@ -570,14 +572,14 @@ function startSubsJam02() {
         subsJam02Toggle = false;
       }
       currSub = subsJam02[9];
-      console.log(subsJam02[9]);
+      // console.log(subsJam02[9]);
     } else if (soundPlaying.currentTime()>subsJam02Triggers[10] && soundPlaying.currentTime()<subsJam02Triggers[11]) {
       if (!subsJam02Toggle) {
         clear();
         subsJam02Toggle = true;
       }
       currSub = subsJam02[10];
-      console.log(subsJam02[10]);
+      // console.log(subsJam02[10]);
     } 
 
 
@@ -587,14 +589,14 @@ function startSubsJam02() {
         subsJam02Toggle = false;
       }
       currSub = subsJam02[11];
-      console.log(subsJam02[11]);
+      // console.log(subsJam02[11]);
     } else if (soundPlaying.currentTime()>subsJam02Triggers[12] && soundPlaying.currentTime()<subsJam02Triggers[13]) {
       if (!subsJam02Toggle) {
         clear();
         subsJam02Toggle = true;
       }
       currSub = subsJam02[12];
-      console.log(subsJam02[12]);
+      // console.log(subsJam02[12]);
     }
     
     else if (soundPlaying.currentTime()>subsJam02Triggers[13]) {
@@ -630,35 +632,35 @@ function startSubsJam03() {
         subsJam03Toggle = true;
       }
       currSub = subsJam03[0];
-      console.log(subsJam03[0]);
+      // console.log(subsJam03[0]);
     } else if (soundPlaying.currentTime()>subsJam03Triggers[1] && soundPlaying.currentTime()<subsJam03Triggers[2]) {
       if (subsJam03Toggle) {
         clear();
         subsJam03Toggle = false;
       }
       currSub = subsJam03[1];
-      console.log(subsJam03[1]);
+      // console.log(subsJam03[1]);
     } else if (soundPlaying.currentTime()>subsJam03Triggers[2] && soundPlaying.currentTime()<subsJam03Triggers[3]) {
       if (!subsJam03Toggle) {
         clear();
         subsJam03Toggle = true;
       }
       currSub = subsJam03[2];
-      console.log(subsJam03[2]);
+      // console.log(subsJam03[2]);
     } else if (soundPlaying.currentTime()>subsJam03Triggers[3] && soundPlaying.currentTime()<subsJam03Triggers[4]) {
       if (subsJam03Toggle) {
         clear();
         subsJam03Toggle = false;
       }
       currSub = subsJam03[3];
-      console.log(subsJam03[3]);
+      // console.log(subsJam03[3]);
     } else if (soundPlaying.currentTime()>subsJam03Triggers[4] && soundPlaying.currentTime()<subsJam03Triggers[5]) {
       if (!subsJam03Toggle) {
         clear();
         subsJam03Toggle = true;
       }
       currSub = subsJam03[4];
-      console.log(subsJam03[4]);
+      // console.log(subsJam03[4]);
     } 
 
     else if (soundPlaying.currentTime()>subsJam03Triggers[5] && soundPlaying.currentTime()<subsJam03Triggers[6]) {
@@ -667,14 +669,14 @@ function startSubsJam03() {
         subsJam03Toggle = false;
       }
       currSub = subsJam03[5];
-      console.log(subsJam03[5]);
+      // console.log(subsJam03[5]);
     } else if (soundPlaying.currentTime()>subsJam03Triggers[6] && soundPlaying.currentTime()<subsJam03Triggers[7]) {
       if (!subsJam03Toggle) {
         clear();
         subsJam03Toggle = true;
       }
       currSub = subsJam03[6];
-      console.log(subsJam03[6]);
+      // console.log(subsJam03[6]);
     } 
 
 
@@ -684,14 +686,14 @@ function startSubsJam03() {
         subsJam03Toggle = false;
       }
       currSub = subsJam03[7];
-      console.log(subsJam03[7]);
+      // console.log(subsJam03[7]);
     } else if (soundPlaying.currentTime()>subsJam03Triggers[8] && soundPlaying.currentTime()<subsJam03Triggers[9]) {
       if (!subsJam03Toggle) {
         clear();
         subsJam03Toggle = true;
       }
       currSub = subsJam03[8];
-      console.log(subsJam03[8]);
+      // console.log(subsJam03[8]);
     } 
 
 
@@ -701,14 +703,14 @@ function startSubsJam03() {
         subsJam03Toggle = false;
       }
       currSub = subsJam03[9];
-      console.log(subsJam03[9]);
+      // console.log(subsJam03[9]);
     } else if (soundPlaying.currentTime()>subsJam03Triggers[10] && soundPlaying.currentTime()<subsJam03Triggers[11]) {
       if (!subsJam03Toggle) {
         clear();
         subsJam03Toggle = true;
       }
       currSub = subsJam03[10];
-      console.log(subsJam03[10]);
+      // console.log(subsJam03[10]);
     } 
 
 
@@ -718,14 +720,14 @@ function startSubsJam03() {
         subsJam03Toggle = false;
       }
       currSub = subsJam03[11];
-      console.log(subsJam03[11]);
+      // console.log(subsJam03[11]);
     } else if (soundPlaying.currentTime()>subsJam03Triggers[12] && soundPlaying.currentTime()<subsJam03Triggers[13]) {
       if (!subsJam03Toggle) {
         clear();
         subsJam03Toggle = true;
       }
       currSub = subsJam03[12];
-      console.log(subsJam03[12]);
+      // console.log(subsJam03[12]);
     }
 
     else if (soundPlaying.currentTime()>subsJam03Triggers[13] && soundPlaying.currentTime()<subsJam03Triggers[14]) {
@@ -734,14 +736,14 @@ function startSubsJam03() {
         subsJam03Toggle = false;
       }
       currSub = subsJam03[13];
-      console.log(subsJam03[13]);
+      // console.log(subsJam03[13]);
     } else if (soundPlaying.currentTime()>subsJam03Triggers[14] && soundPlaying.currentTime()<subsJam03Triggers[15]) {
       if (!subsJam03Toggle) {
         clear();
         subsJam03Toggle = true;
       }
       currSub = subsJam03[14];
-      console.log(subsJam03[14]);
+      // console.log(subsJam03[14]);
     } 
     
     else if (soundPlaying.currentTime()>subsJam03Triggers[15]) {
@@ -820,27 +822,6 @@ async function loadAllSounds() {
 
 
 
-
-// function mapCurrentTime(currSound) {
-//   console.log("playing new sample at:");
-//   console.log(currSound.currentTime());
-// }
-
-
-
-// function progressBar(currSound) {
-//   // let barW = map(soundPlaying.currentTime(), 0, int(currSound.duration()), 100, width-100);
-//   let barW = map(soundPlaying.currentTime(), 0, 100, 100, width-100);
-//   let barH = 100;
-//   fill("yellow");
-//   rect(100, height-100, barW, barH)
-//   // soundPlaying
-
-// }
-
-
-
-
 function mousePressed() {
   // x = mouseX;
   // y = mouseY;
@@ -879,18 +860,18 @@ function replaceText() {
   murioString = murio.value();
   textInputString = textInput.value();
 
-  console.log(nombreString);
-  console.log(nacioString);
-  console.log(murioString);
-  console.log(textInputString);
+  // console.log(nombreString);
+  // console.log(nacioString);
+  // console.log(murioString);
+  // console.log(textInputString);
 
   // if(typeof int(murioString) == 'number' && typeof int(nacioString) == 'number'){
   if(int(murioString) > 0 && int(nacioString) > 0){
     yearPetals = int(murioString) - int(nacioString);
-    console.log(`Vivió ${yearPetals} años en esta tierra...`)
+    // console.log(`Vivió ${yearPetals} años en esta tierra...`)
   } else {
     yearPetals = "sus";
-    console.log(`vivió sus años en esta tierra...`)
+    // console.log(`vivió sus años en esta tierra...`)
   }
 }
 
@@ -938,7 +919,7 @@ function scrollToggle() {
 
   // if (!scrollNow) {
     scrollNow = true;
-    console.log("scroll now!")
+    // console.log("scroll now!")
   // } 
   // else if (scrollNow) {
   //   scrollNow = false;

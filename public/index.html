@@ -1,174 +1,314 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
+<head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+
+
     <title>Altar Digital</title>
-    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Mono&display=swap" as="font" type="font/woff2" crossorigin> 
-    <link rel="stylesheet" href="css/style.css">
 
 
-      
+    <link rel="stylesheet" type="text/css" href="css/intro.css">
+    <link rel="shortcut icon" href="favicon.ico">
     <script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/addons/p5.sound.js"></script>
-    
 
-    <script src="https://unpkg.com/intersection-observer@0.5.1/intersection-observer.js"></script>
-    <script src="https://unpkg.com/scrollama"></script>
-    <script src="https://d3js.org/d3.v5.min.js"></script>
+ 
+</head>
 
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenLite.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/easing/EasePack.min.js'></script>
-    <!-- <script src='https://threejs.org/build/three.js'></script> -->
-    
-    <!-- <script src='https://threejs.org/examples/js/controls/OrbitControls.js'></script> -->
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/easing/EasePack.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenLite.min.js'></script>
-    <script src="https://unpkg.com/ml5@0.4.3/dist/ml5.min.js"></script>
 
-    <link rel="shortcut icon" href="favicon.ico">
+<body>
 
 
 
+<script type="text/javascript" src="src/flowmap.js"></script>
+<script type="module">
+  let imgSize = [400,300];
 
-  </head>
+    const vertex = `
+					attribute vec2 uv;
+					attribute vec2 position;
+					varying vec2 vUv;
+					void main() {
+							vUv = uv;
+							gl_Position = vec4(position, 0, 1);
+					}
+			`;
+    const fragment = `
+					precision highp float;
+					precision highp int;
+					uniform sampler2D tWater;
+					uniform sampler2D tFlow;
+					uniform float uTime;
+					varying vec2 vUv;
+					uniform vec4 res;
 
-  <body>
+					void main() {
 
-    <div id="loader"></div>
-    <div id="sceneCont">
-      <div id="videoCont"> </div>    
-      <div id="camVid"> </div>    
-    </div>
-    <div id="canvasRitual"></div>
+							// R and G values are velocity in the x and y direction
+							// B value is the velocity length
+							vec3 flow = texture2D(tFlow, vUv).rgb;
 
+              vec2 uv = .5 * gl_FragCoord.xy / res.xy ;
 
-    <main>
-      <div id="scrolly">
-        <article>
-          <div class="main-col">
-            <div class="step coreo-step" data-step="1" id="uno">
-              <p>Cuando la noche se vuelva oscura,</br>
-              y el aire pese al entrar al pecho,</p>
-            </div>
+              vec2 myUV = (uv - vec2(0.5))*res.zw + vec2(0.5);
+              myUV -= flow.xy * (0.15 * 0.5);
+              vec3 tex = texture2D(tWater, myUV).rgb;
 
-            <div class="step coreo-step" data-step="2" id="dos">
-              <p> <strong>Creatura</strong>,</br> no temas cerrar los ojos</p>
-              <p>Destellos iluminarán tu memoria</p>
-            </div>
+              gl_FragColor.rgb = vec3(tex.r, tex.g, tex.b);
+              gl_FragColor.a = tex.r;
+					}
+			`;
+    {
+      const renderer = new ogl.Renderer({
+        dpr: 2,
+        alpha: true,
+        premultipliedAlpha: true
+      });
+      const gl = renderer.gl;
+      gl.canvas.classList.add("demo3");
+      let demo3 = document.getElementById("demo3");
+      demo3.appendChild(gl.canvas);
 
+      const isTouchCapable = "ontouchstart" in window;
 
-            <div class="step coreo-step" data-step="3" id="tres">
-              <p>Recuerda en un <strong>Altar</strong>,</br>
-                a les que solían vivir...</p>
-            </div>
-
-
-            <div class="step coreo-step" data-step="4" id="cuatro">
-            </div>
-            
-
-
-            <div class="step coreo-step" data-step="5" id="form">
-              <form class="form" id="form-cont">
-                <div class="form-text">
-                  <p>¿A quién quieres recordar hoy?</p>
-                  <input id="nombre" class="input-short"></input>
-                </div>            
-                <div class="form-text">
-                  <p>Año en que nació</p>
-                  <input type="number" min="1000" max="2020" id="nacio" class="input-num"></input>
-                </div>           
-                <div class="form-text">
-                  <p>Año en que dejó su cuerpo</p>
-                  <input type="number" min="1000" max="2020" id="murio" class="input-num"></input>
-                </div>
-                <div class="form-text">
-                  <p>¿Qué quieres recordar/ </br>honrar de su presencia?</p>
-                  <textarea class="input-long" id="text-input"></textarea>
-                </div>
-                <div class="form-button">
-                  <button type="button" id="form-button">Hacer ofrenda</button>
-                </div>
-              </form>       
-          </div>
-
-          <div id="jam" class="hidden"></div>
-
-          <div class="step hidden" data-step="6" id="jam01">
-            <!-- <p>1. LUZ </p> -->
-          </div>   
-          <div class="step hidden" data-step="7" id="jam02">
-            <!-- <p>2. CUERPO</p> -->
-          </div>  
-          <div class="step hidden" data-step="8" id="jam03">
-            <!-- <p>3. OFRENDA</p> -->
-          </div>  
-            
-          <div class="step hidden" data-step="9" id="transicion">
-            <!-- transición - Recuérdales  -->
-          </div>  
-          <div class="step hidden" data-step="10" id="altar">
-          </div>  
-        </div>  
-          
-
-        </article>
-
-
-
-        <video id="vidCor" width="1920" height="1080" loop='false'>
-          <source src="video-web/coreo_04-web.mp4" type="video/mp4">
-        </video> 
-      </div>
-    </main>
-    
-    <div id="footer">
-      <div>
-        <a href="./index.html"> <button class="btn-footer">Reiniciar ritual</button> </a>
-
-        <!-- <button class="btn-footer" href="./index.html">Reiniciar ritual</button> -->
-      </div>
-      <div>
-        
-        <img id="logo-alt" src="img/Alienation-01.png"/>
-      </div>
-      <div>
-        <a href="./about.html"> <button class="btn-footer">Acerca de Altar Digital</button> </a>
-        <!-- <button class="btn-footer" href="./about.html">Acerca de Altar Digital</button> -->
-      </div>
-    </div>
-      <!-- preload function -->
-      <script type="text/javascript">
-          
-        let loader;
-        function loadNow(opacity) {
-            if(opacity <= 0) {
-                displayContent();
-            }
-            else {
-                loader.style.opacity = opacity;
-                window.setTimeout(function() {
-                    loadNow(opacity - 0.05)
-                }, 100);
-            }
+      // Variable inputs to control flowmap
+      let aspect = 1;
+      const mouse = new ogl.Vec2(-1);
+      const velocity = new ogl.Vec2();
+      function resize() {
+        let a1, a2;
+        var imageAspect = imgSize[1] / imgSize[0];
+        if (window.innerHeight / window.innerWidth < imageAspect) {
+          a1 = 1;
+          a2 = window.innerHeight / window.innerWidth / imageAspect;
+        } else {
+          a1 = (window.innerWidth / window.innerHeight) * imageAspect;
+          a2 = 1;
         }
-        function displayContent() {
-            loader.style.display = 'none';
-            // document.getElementById('vidCor').style.display = 'block';
-        }
-        
-        document.addEventListener("DOMContentLoaded", function() {
-            loader = document.getElementById('loader');
-            loadNow(1);
-        });
-        
-    </script>
+        mesh.program.uniforms.res.value = new ogl.Vec4(
+          window.innerWidth,
+          window.innerHeight,
+          a1,
+          a2
+        );
 
-    <script src="./src/mainScroll.js"></script>
-    <script src="./src/altarScene.js" type="module"></script>
-    <script src="./src/triggers.js"></script>
-  </body>
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        aspect = window.innerWidth / window.innerHeight;
+      }
+      const flowmap = new ogl.Flowmap(gl, { falloff: 0.2, dissipation: 0.9 });
+      // Triangle that includes -1 to 1 range for 'position', and 0 to 1 range for 'uv'.
+      const geometry = new ogl.Geometry(gl, {
+        position: {
+          size: 2,
+          data: new Float32Array([-1, -1, 3, -1, -1, 3])
+        },
+        uv: { size: 2, data: new Float32Array([0, 0, 2, 0, 0, 2]) }
+      });
+      const texture = new ogl.Texture(gl, {
+        minFilter: gl.LINEAR,
+        magFilter: gl.LINEAR,
+        premultiplyAlpha: true
+      });
+      const img = new Image();
+      img.onload = () => (texture.image = img);
+      img.crossOrigin = "Anonymous";
+
+      if (isTouchCapable) {
+        img.src = "img/Alienation.svg";
+
+        imgSize = [800, 1000];
+      } else {
+        img.src = "img/Alienation.svg";
+      }
+
+      let a1, a2;
+      var imageAspect = imgSize[1] / imgSize[0];
+      if (window.innerHeight / window.innerWidth < imageAspect) {
+        a1 = 1;
+        a2 = window.innerHeight / window.innerWidth / imageAspect;
+      } else {
+        a1 = (window.innerWidth / window.innerHeight) * imageAspect;
+        a2 = 1;
+      }
+
+      const program = new ogl.Program(gl, {
+        vertex,
+        fragment,
+        uniforms: {
+          uTime: { value: 0 },
+          tWater: { value: texture },
+          res: {
+            value: new ogl.Vec4(window.innerWidth, window.innerHeight, a1, a2)
+          },
+          img: { value: new ogl.Vec2(imgSize[0], imgSize[1]) },
+          // Note that the uniform is applied without using an object and value property
+          // This is because the class alternates this texture between two render targets
+          // and updates the value property after each render.
+          tFlow: flowmap.uniform
+        }
+      });
+      const mesh = new ogl.Mesh(gl, { geometry, program });
+
+      window.addEventListener("resize", resize, false);
+      resize();
+
+      // Create handlers to get mouse position and velocity
+      // const isTouchCapable = "ontouchstart" in window;
+      if (isTouchCapable) {
+        window.addEventListener("touchstart", updateMouse, false);
+        window.addEventListener("touchmove", updateMouse, { passive: false });
+      } else {
+        window.addEventListener("mousemove", updateMouse, false);
+      }
+      let lastTime;
+      const lastMouse = new ogl.Vec2();
+      function updateMouse(e) {
+        e.preventDefault();
+        if (e.changedTouches && e.changedTouches.length) {
+          e.x = e.changedTouches[0].pageX;
+          e.y = e.changedTouches[0].pageY;
+        }
+        if (e.x === undefined) {
+          e.x = e.pageX;
+          e.y = e.pageY;
+        }
+        // Get mouse value in 0 to 1 range, with y flipped
+        mouse.set(e.x / gl.renderer.width, 1.0 - e.y / gl.renderer.height);
+        // Calculate velocity
+        if (!lastTime) {
+          // First frame
+          lastTime = performance.now();
+          lastMouse.set(e.x, e.y);
+        }
+
+        const deltaX = e.x - lastMouse.x;
+        const deltaY = e.y - lastMouse.y;
+
+        lastMouse.set(e.x, e.y);
+
+        let time = performance.now();
+
+        // Avoid dividing by 0
+        let delta = Math.max(10.4, time - lastTime);
+        lastTime = time;
+        velocity.x = deltaX / delta;
+        velocity.y = deltaY / delta;
+        // Flag update to prevent hanging velocity values when not moving
+        velocity.needsUpdate = true;
+      }
+      requestAnimationFrame(update);
+      function update(t) {
+        requestAnimationFrame(update);
+        // Reset velocity when mouse not moving
+        if (!velocity.needsUpdate) {
+          mouse.set(-1);
+          velocity.set(0);
+        }
+        velocity.needsUpdate = false;
+        // Update flowmap inputs
+        flowmap.aspect = aspect;
+        flowmap.mouse.copy(mouse);
+        // Ease velocity input, slower when fading out
+        flowmap.velocity.lerp(velocity, velocity.len ? 0.15 : 0.1);
+        flowmap.update();
+        program.uniforms.uTime.value = t * 0.01;
+        renderer.render({ scene: mesh });
+      }
+    }
+  </script> 
+
+<div id="demo3"></div>
+ <div class="petal" id="petals">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  
+  
+  
+  </div> 
+
+    
+
+  <div class="wrapper">
+
+    <header>
+      
+      <img id="logo-alt" src="img/Alienation-01.png"/>
+
+        <h3>En Tu Memoria</br></h3>
+
+        <h4>  Bienvenidx creatura</br></h4><p>
+           Permíteme guiarte en este ritual para </br>recordar a lxs que solían vivir:</br></p>
+          </br>
+    </header>
+
+    <section class="row">
+
+      <div class="column">
+        <h2>I.</h2>
+        <p> <strong>Apaga la iluminación</strong> del espacio en donde estás y ten a la mano una <strong>linterna</strong> (puede ser la de tu
+          celular) o una veladora. </p>
+      </div>
+
+      <div class="column">
+        <h2>II.</h2>
+        <p>Sitúate en un espacio adecuado para activar tu cuerpa/cuerpo/cuerpx en movimiento,<strong> habilita la
+          cámara</strong> y sube el volumen de tus bocinas para que me puedas escuchar.</p>
+      </div>
+
+      <div class="column">
+        <h2>III.</h2>
+        <p> Es recomendable utilizar Mozilla Firefox para vivir al maximo esta experiencia.
+          Respira profundo y responde desde adentro:<br>¿A quién quieres recordar hoy?</p>
+      </div>
+
+
+
+    </section>
+
+    <footer>
+      <div> <a href="./altar.html"> <button class="btninicio"> Iniciar el ritual</button> </a> </div>
+
+      <div> <a href="./about.html" id="acerca">Acerca de Altar</a> </div>
+    </footer>
+
+  </div>
+
+  <div class="cookies-bar" tabindex="-1">
+    <div class="content-container">
+      <div class="rowbar relative-wrap">
+        <div class="columnsbar">
+          <p id="disclaimer">
+            Utilizamos cookies propias y de terceros para mejorar
+            nuestros servicios mediante el análisis de tus
+            <!-- hábitos de navegación.<a style="color:#cea53e" href="www.altardigital.com/policy"> "Acepto el uso de estas cookies"</a> Puedes cambiar la configuración u obtener más -->
+            hábitos de navegación.<a style="color:#E7C045" href="www.altardigital.com/policy"> "Acepto el uso de estas cookies"</a> Puedes cambiar la configuración u obtener más
+            información. No guardamos ningún dato ingresado en el formulario ni registros de la cámara web.
+          </p>
+          <!-- <a class="btn btn-black cookies-custom-button" style="color:#cea53e" href="javascript:void(0)" onclick="document.querySelector('.cookies-bar').remove()">ACEPTO</a> -->
+          <a class="btn btn-black cookies-custom-button" style="color:#E7C045" href="" onclick="document.querySelector('.cookies-bar').remove()">ACEPTO</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <!-- <script src="./src/triggers.js"></script> -->
+  <script type="text/javascript" src="./src/audioIntro.js"></script>
+
+
+</body>
+
+
+
+
+
+
 
 </html>
