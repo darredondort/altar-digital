@@ -5,11 +5,6 @@ let scrolly = main.select("#scrolly");
 let article = scrolly.select("article");
 let step = article.selectAll(".step");
 
-// let button = document.getElementById("form-button");
-// let nombre = document.getElementById("nombre");
-// let nacio = document.getElementById("nacio");
-// let murio = document.getElementById("murio");
-
 let introOn = false;
 let partsOn = false;
 let coreoOn = false;
@@ -21,6 +16,8 @@ let transOn = false;
 let jam01On;
 let jam02On;
 let jam03On;
+
+let currStep;
 
 
 // if ( nombre.value && nacio.value && murio.value ) {
@@ -47,7 +44,9 @@ function handleResize() {
 
  // scrollama event handlers
  function handleStepEnter(response) {
-   console.log(response);
+  currStep = response.index;
+  console.log("currStep: ", currStep);
+  console.log(response);
    // response = { element, direction, index }
 
 
@@ -98,15 +97,7 @@ function handleResize() {
      }
   }
 
-   
-
-  // if (response.index === 5 || response.index === 6 || response.index === 7 ) {
-  //     coreoOn = false;
-  //     partsOn = true;
-  //     jamOn = true;
-  //     console.log("jamOn")
-  // }
-
+  
   if (response.index === 5 ) {
     introOn = false;
     coreoOn = false;
@@ -159,6 +150,7 @@ function handleResize() {
   }
 
   if (response.index === 9 ) {
+      transOn = true;
       introOn = false;
       coreoOn = false;
       formOn = false;

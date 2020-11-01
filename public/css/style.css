@@ -31,7 +31,7 @@ body {
   height: 100vh;
   z-index: 1;
   overflow: visible;
-  background: #000 url('../img/loader.gif') no-repeat center center;
+  background: #000 url('../img/loader_02.gif') no-repeat center center;
 }
 
 

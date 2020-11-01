@@ -68,6 +68,7 @@ function initScene() {
   // get video element (mp4) & disable display
   let vidCor = document.getElementById("vidCor");
   vidCor.disabled = true;
+  vidCor.loop = false;
   // vidCor.disabled = true;
 
   // get video element (mp4) & disable display
@@ -128,7 +129,7 @@ function initScene() {
 
   // initialise mouse attractors
   let mouse = new THREE.Vector2();
-  let mouseAttractor = new Attractor(Math.random()*boundary, boundary, boundary/1.5, 100, 25);
+  let mouseAttractor = new Attractor(Math.random()*boundary, boundary, boundary/1.5, 200, 25);
   // let mouseAttractorOp = new Attractor(Math.random()*boundary, boundary, 1000, 50, 15);
   mouseAttractor.initialise();
   // mouseAttractorOp.initialise();
@@ -178,7 +179,7 @@ function initScene() {
       // let particle = new THREE.Vector3(Math.random()*boundary, boundary/2, Math.random()*boundary);
       mouseGeom.vertices.push(particle);
   }  
-  for (let i = 0; i <15000; i++) {
+  for (let i = 0; i <20000; i++) {
       // let particle = new THREE.Vector3(Math.random()*boundary, Math.random()*boundary, Math.random()*boundary+boundary/2);
       // let particle = new THREE.Vector3(Math.random()*boundary, Math.random()*boundary, Math.random()*boundary);
       // let particle = new THREE.Vector3(THREE.Math.randInt(-boundary, boundary),THREE.Math.randInt(-boundary*2, -boundary),THREE.Math.randInt(0, boundary));
@@ -372,13 +373,14 @@ function initScene() {
     // mouseCloudSystem.applyForce(windOut);
     // mouseCloudSystem.applyForce(windIn);
 
-    if (partsOn && pMaterial.opacity < 1) {
+    if (partsOn && pMaterial.opacity < 0.75) {
       pMaterial.opacity +=0.01;
     } else if (!partsOn && pMaterial.opacity > 0) {
       pMaterial.opacity -= 0.1;
     }
 
     if(coreoOn) {
+      vidCor.loop = false;
       vidCor.play();
       // loadPosenet();
 
@@ -396,7 +398,7 @@ function initScene() {
 
       // mouseAttractOff();
       if (!posenetLoaded) {
-        loadPosenet();
+        // loadPosenet();
         posenetLoaded = true;
       }
 
@@ -424,14 +426,14 @@ function initScene() {
         webcamAdded = true;
       }
       // console.log("jam trigger");
-      if (partsOn && pMaterial.opacity < 0.2) {
-        pMaterial.opacity += 0.1;
-      }
+      // if (partsOn && pMaterial.opacity < 0.2) {
+      //   pMaterial.opacity += 0.1;
+      // }
     }
 
     if (jam01On) {
-      if (camera.position.z > 800 ) {
-        camera.position.z -= 0.5;
+      if (camera.position.z > 1300 ) {
+        camera.position.z -= 0.3;
 
         // console.log("camera.position.z", camera.position.z)
       }
@@ -480,12 +482,12 @@ function initScene() {
         createPetals();
         petalsCreated = true;
       }
-      if (camera.position.z > 1100 ) {
-        camera.position.z -= 2;
+      if (camera.position.z > 1200 ) {
+        camera.position.z -= 0.8;
         // camera.rotation.y -= 2;
         // console.log("camera.position.z", camera.position.z)
-      } else if (camera.position.z > 900) {
-        camera.position.z -= 1;
+      } else if (camera.position.z > 1000) {
+        camera.position.z -= 0.04;
         // camera.rotation.y -= 2;
         // console.log("camera.position.z", camera.position.z)
       
@@ -510,20 +512,20 @@ function initScene() {
 
     if (transOn) {
 
-      if (poseNet) {
-        // poseNet.minConfidence = 1;
-        vidCor.pause();
-        poseNet.video = vidCor;
-        // console.log(poseNet)
-        for (let i = 0; i < attractors.length; i++) {
-          attractors[i].position.z = camera.position.z - 750;
-          attractors[i].mass = 1;
-          // console.log("body attractors off");
-        }
-      }
+      // if (poseNet) {
+      //   // poseNet.minConfidence = 1;
+      //   vidCor.pause();
+      //   poseNet.video = vidCor;
+      //   // console.log(poseNet)
+      //   for (let i = 0; i < attractors.length; i++) {
+      //     attractors[i].position.z = camera.position.z - 750;
+      //     attractors[i].mass = 1;
+      //     // console.log("body attractors off");
+      //   }
+      // }
 
       if (camera.position.z < 1500 ) {
-        camera.position.z += 3;
+        camera.position.z += 2.5;
         // console.log("camera.position.z", camera.position.z)
       }
 
@@ -539,6 +541,12 @@ function initScene() {
       //   // planeMaterial.color = "red";
       //   jam04Added = true;
       // }
+      let petalsAdded = false;
+      if (!petalsAdded) {
+        scene.add(petalsCont);
+        petalsAdded = true;
+      }
+      animatePetals();
 
     }
 
@@ -563,12 +571,7 @@ function initScene() {
       // // jamPlane.remove();
       camVid.style.opacity = 1;
 
-      let petalsAdded = false;
-      if (!petalsAdded) {
-        scene.add(petalsCont);
-        petalsAdded = true;
-      }
-      animatePetals();
+
     }
 
     // mouseCloudSystem.update();
@@ -823,7 +826,7 @@ function initScene() {
     petalsCont.position.x = 0;
     petalsCont.position.y = 0;
     // petalsAttractor = new Attractor(boundary, boundary/1.1, boundary/1.1, 60, 1000);
-    petalsAttractor = new Attractor(0, 0, 1350, 200, 20);
+    petalsAttractor = new Attractor(0, 0, 1350, 500, 20);
     petalsAttractor.initialise();
   }
   function animatePetals() {
