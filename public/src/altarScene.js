@@ -526,7 +526,7 @@ function initScene() {
       // }
 
       if (camera.position.z < 1500 ) {
-        camera.position.z += 2.5;
+        camera.position.z += 2;
         // console.log("camera.position.z", camera.position.z)
       }
 
@@ -825,7 +825,7 @@ function initScene() {
     }
     petalsCont.position.z = 1350;
     petalsCont.position.x = 0;
-    petalsCont.position.y = 0;
+    petalsCont.position.y = 5;
     // petalsAttractor = new Attractor(boundary, boundary/1.1, boundary/1.1, 60, 1000);
     petalsAttractor = new Attractor(0, 0, 1350, 500, 20);
     petalsAttractor.initialise();

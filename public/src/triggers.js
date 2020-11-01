@@ -50,6 +50,8 @@ let yOffScroll;
 let scrollNow = false;
 let scrollOpacity;
 
+let footerOpacity = 0;
+
 let audioStarted = false;
 let allSoundsLoaded = false;
 let introStarted = false;
@@ -289,6 +291,11 @@ function draw() {
     // }
     // fill(255,10)
     // drawFormText();
+    let footer = select("#footer");
+    if (footerOpacity < 0.6) {
+      footerOpacity += 0.004;
+    }
+    footer.style("opacity", footerOpacity);
 
   }
 
@@ -764,7 +771,7 @@ function drawFormText() {
 
   inc = TWO_PI / 30.0;
   sineLoop = sin(angleText);
-  angleText = angleText + inc/3;
+  angleText = angleText + inc/5;
   // console.log("sineLoop",sineLoop);
   
   // fill(255);
@@ -774,18 +781,18 @@ function drawFormText() {
   if (nombreString && nombreString != "") {
     textSize(42);
     textAlign(CENTER,CENTER);
-    text(nombreString, width/2, map(sineLoop*0.5, -1,1, height*0.70, height*0.75));
+    text(nombreString, width/2, map(sineLoop*0.5, -1,1, height*0.60, height*0.65));
     // text(nombreString, width/2, height*0.65);
     
   }
   textSize(28);
   if (nombreString && nombreString != "") {
-    text(yearsString, width/2, map(sineLoop*0.3, -1,1, height*0.75, height*0.80));
+    text(yearsString, width/2, map(sineLoop*0.3, -1,1, height*0.65, height*0.70));
     // text(yearsString, width*0.80, height*0.80);
   } else {
     yearsString = `Vivió sus años en esta tierra...`;
     // text(yearsString, width/2, height*0.70);
-    text(yearsString, width/2, map(sineLoop*0.3, -1,1, height*0.75, height*0.80));
+    text(yearsString, width/2, map(sineLoop*0.3, -1,1, height*0.65, height*0.70));
     // text(yearsString, width*0.80, height*0.80);
   }
 
@@ -794,7 +801,7 @@ function drawFormText() {
   if (textInputString && textInputString != "") {
     // fill(map(sineLoop*0.3, -1,1, 150, 255));
     textSize(24);
-    text(textInputString, width/2, map(sineLoop*0.2, -1,1, height*0.80, height*0.83));
+    text(textInputString, width/2, map(sineLoop*0.2, -1,1, height*0.70, height*0.73));
     // text(textInputString, width/2, height*0.75);
     // text(textInputString, width*0.80, height*0.85);
   }

@@ -229,6 +229,79 @@ h4{
   content: "";
 }
 
+#footer {
+  display: flex;
+  position: fixed;
+  top: 90vh;
+  height: 10vh;
+  width: 100vw;
+  background: rgba(0,0,0,0.75);
+  z-index: 30;
+  /* justify-content: space-around; */
+  justify-content: center;
+  align-items: center;
+  opacity:0.0;
+  pointer-events: none;
+}
+
+#footer div {
+  width: 30%;
+  text-align: center;
+}
+
+#logo-alt {
+  width: auto;
+  height: 8vh;
+}
+
+
+.btn-footer {
+
+  font-size: 32px;
+  background-color: transparent; 
+  background-position: 100% 0;
+  background-size: 200% 200%;
+  border: none; 
+  outline: solid;
+  outline-width: 1px;
+  color: rgb(228, 175, 39);
+  /* font-weight: bold; */
+  letter-spacing: 1px;
+  text-shadow: 0px 8px 8px rgba(255, 253, 253, 0.2);
+  text-align: center;
+  font-size: 18px;
+  width: 220px;
+  height: 40px; 
+  margin: 25px;
+  /* box-shadow: 0 16px 32px 0 rgba(252, 181, 100, 0.247); */
+  /* box-shadow: 0 8px 32px 12px rgba(252, 181, 100, 0.250); */
+  font-family: 'Cormorant Garamond', serif;
+  z-index: 1;
+  cursor: pointer;  
+}
+
+.btn-footer:hover {
+  box-shadow: 0 16px 16px 0 rgba(255, 255, 255, 0.0966);
+  background-position: 0 0; 
+  /* color: rgb(252, 195, 88); */
+  transition: all 0.5s;
+  -webkit-transform: scale(1.025);
+  -ms-transform: scale(1.025);
+  transform: scale(1.025);
+}
+
+.btn-footer:active {
+  box-shadow: 0 16px 16px 0 rgba(255, 255, 255, 0.0966);
+  background-position: 0 0; 
+  color: rgb(255, 255, 255);
+  transition: all 0.5s;
+  -webkit-transform: scale(1.025);
+  -ms-transform: scale(1.025);
+  transform: scale(1.025);
+}
+
+
+
 
 #scrolly {
   position: sticky;
@@ -479,4 +552,46 @@ input[type="number"]::-webkit-inner-spin-button {
 #jam {
   width: 100vh;
   height: 50vh;
+}
+
+
+
+
+
+/* Mobile Styles */
+@media only screen and (max-width: 480px) {
+  #footer {
+    flex-direction: column;
+    justify-content: flex-start;
+    height:100vh;
+    top: 0;
+    background: none;
+    pointer-events: auto;
+
+  }
+
+  #footer div {
+    width:100%;
+    margin: 5px;
+  }
+
+  .btn-footer {
+    margin: 5px;
+
+  }
+
+  .main-col {
+    width: 90%;
+    margin: 0;
+    padding: 25px;
+  }
+
+  #form {
+    width: 90%;
+    margin: 0;
+    padding: 25px;
+
+
+  }
+	
 }
