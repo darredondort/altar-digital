@@ -15,7 +15,7 @@ function initScene() {
 
   // set lights
   // let light1 = new THREE.DirectionalLight(0x12BAB6, 1.5);
-  let light1 = new THREE.DirectionalLight(0xffffff, 1.5);
+  let light1 = new THREE.DirectionalLight(0xffffff, 2);
   light1.position.y = 10;
   scene.add(light1);
 
@@ -171,7 +171,8 @@ function initScene() {
       map: texture,
       blending: THREE.AdditiveBlending,
       sizeAttenuation: true,
-      color: "#F9DF88"
+      color: "#F9DF88",
+      lights: true
   });
   for (let i = 0; i < 1; i++) {
       let particle = new THREE.Vector3(THREE.Math.randInt(-boundary, boundary),THREE.Math.randInt(-boundary, boundary),THREE.Math.randInt(0, boundary));
@@ -696,8 +697,8 @@ function initScene() {
 
   function Cloud(cloudGroup) {
     this.vertices = cloudGroup.geometry.vertices;
-    this.max = new THREE.Vector3(5,5,5);
-    this.min = new THREE.Vector3(-5,-5,-5);
+    this.max = new THREE.Vector3(3,3,3);
+    this.min = new THREE.Vector3(-3,-3,-3);
     this.velocities = [];
     this.accelerations = [];
     this.mass = 20;

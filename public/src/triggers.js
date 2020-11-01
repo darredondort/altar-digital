@@ -11,11 +11,11 @@ let subsJam01 = ["Creatura, es momento de activar la luz.","Sostén en tu mano u
 let subsJam01Triggers = [6, 13, 20, 29, 33, 40];
 let subsJam01Toggle = false;
 
-let subsJam02 = ["Muéstrame tu mano, creatura...","...alúmbrala con la luz.","Observa las arrugas de la piel...","...las marcas de vida.","Sigue alumbrando hacia el brazo...","...vello por vello...","..pasando por el codo.","Alumbra el hombro, la clavícula.","Lleva la luz hacia tu cara.","Observa la piel.","Observa entre las arrugas...","Respira...","Recuerda..."];
+let subsJam02 = ["Muéstrame tu mano, creatura...","...alúmbrala con la luz.","Observa las arrugas de la piel...","...las marcas de vida.","Sigue alumbrando hacia el brazo...","...vello por vello...","...pasando por el codo.","Alumbra el hombro, la clavícula.","Lleva la luz hacia tu cara.","Observa la piel.","Observa entre las arrugas...","Respira...","Recuerda..."];
 let subsJam02Triggers = [5, 8, 15, 18, 24, 28, 31, 34, 41, 47, 50, 56, 61, 68];
 let subsJam02Toggle = false;
 
-let subsJam03 = ["Lanza los brazos hacia arriba","Creatura, la vida es tuya, muy tuya en este momento.","Siéntela pulsando desde el corazón hasta la punta de tus dedos.","Inhala...","Siente el aire entre las costillas","y la carne entre hueso y hueso.","Exhala...","Baja los brazos y sostenlos con ternura.","¿A quién quieres recordar hoy?","Elles nos abrazan en las noches más obscuras.","Susurran sabiduría...","En tu sangre esperan por ti.","Ya están aquí...","...en tu cuerpo...","...y en tu memoria."];
+let subsJam03 = ["Lanza los brazos hacia arriba.","Creatura, la vida es tuya, muy tuya en este momento.","Siéntela pulsando desde el corazón hasta la punta de tus dedos.","Inhala...","Siente el aire entre las costillas...","...y la carne entre hueso y hueso.","Exhala...","Baja los brazos y sostenlos con ternura.","¿A quién quieres recordar hoy?","Elles nos abrazan en las noches más obscuras.","Susurran sabiduría...","En tu sangre esperan por ti.","Ya están aquí...","...en tu cuerpo...","...y en tu memoria."];
 let subsJam03Triggers = [4, 7, 14, 22, 25, 28, 33, 42, 48, 53, 59, 65, 69, 73, 75, 80];
 let subsJam03Toggle = false;
 
@@ -762,7 +762,7 @@ function drawFormText() {
   // console.log("drawing: ",nombreString, yearsString, textInputString);
   textAlign(CENTER,CENTER);
 
-  inc = TWO_PI / 25.0;
+  inc = TWO_PI / 30.0;
   sineLoop = sin(angleText);
   angleText = angleText + inc/3;
   // console.log("sineLoop",sineLoop);
@@ -792,7 +792,7 @@ function drawFormText() {
 
 
   if (textInputString && textInputString != "") {
-    fill(map(sineLoop*0.3, -1,1, 150, 255));
+    // fill(map(sineLoop*0.3, -1,1, 150, 255));
     textSize(24);
     text(textInputString, width/2, map(sineLoop*0.2, -1,1, height*0.80, height*0.83));
     // text(textInputString, width/2, height*0.75);
